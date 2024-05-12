@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=0.75, user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="xterm.css" />
+  <script src="xterm.js"></script>
+  <script src="split.min.js"></script>
+  <script src="ace.js"></script>
+  <script src="ext-language_tools.js"></script>
+  
+  <script>
+    let StickStatus={xPosition:0,yPosition:0,x:0,y:0,pressed:0};var JoyStick=function(t,e,i){var o=void 0===(e=e||{}).title?"joystick":e.title,n=void 0===e.width?0:e.width,a=void 0===e.height?0:e.height,r=void 0===e.internalFillColor?"#AAAAAA":e.internalFillColor,d=void 0===e.internalLineWidth?2:e.internalLineWidth,s=void 0===e.internalStrokeColor?"#333333":e.internalStrokeColor,c=void 0===e.externalLineWidth?2:e.externalLineWidth,u=void 0===e.externalStrokeColor?"#808080":e.externalStrokeColor,h=void 0===e.autoReturnToCenter||e.autoReturnToCenter;i=i||function(t){};var S=document.getElementById(t);S.style.touchAction="none";var l=document.createElement("canvas");l.id=o,0===n&&(n=S.clientWidth),0===a&&(a=S.clientHeight),l.width=n,l.height=a,S.appendChild(l);var f=l.getContext("2d"),k=0,g=2*Math.PI,x=(l.width-(l.width/2+10))/2,v=x+5,w=x+30,p=l.width/2,P=l.height/2,m=(l.width,l.height,p),y=P,E=void 0,T=void 0;function drawExternal(){f.beginPath(),f.arc(p,P,w,0,g,!1),f.lineWidth=c,f.strokeStyle=u,f.stroke()}function drawInternal(){f.beginPath(),m<x&&(m=v),m+x>l.width&&(m=l.width-v),y<x&&(y=v),y+x>l.height&&(y=l.height-v),f.arc(m,y,x,0,g,!1);var t=f.createRadialGradient(p,P,5,p,P,200);t.addColorStop(0,r),t.addColorStop(1,s),f.fillStyle=t,f.fill(),f.lineWidth=d,f.strokeStyle=s,f.stroke()}"ontouchstart"in document.documentElement?(l.addEventListener("touchstart",(function onTouchStart(t){k=1}),!1),document.addEventListener("touchmove",(function onTouchMove(t){1===k&&t.targetTouches[0].target===l&&(m=t.targetTouches[0].pageX,y=t.targetTouches[0].pageY,E=m,T=y,"BODY"===l.offsetParent.tagName.toUpperCase()?(m-=l.offsetLeft,y-=l.offsetTop):(m-=l.offsetParent.offsetLeft,y-=l.offsetParent.offsetTop),f.clearRect(0,0,l.width,l.height),drawExternal(),drawInternal(),StickStatus.xPosition=m,StickStatus.yPosition=y,StickStatus.x=((m-p)/v*100).toFixed(),StickStatus.y=((y-P)/v*100*-1).toFixed(),StickStatus.pressed=1,i(StickStatus))}),!1),document.addEventListener("touchend",(function onTouchEnd(t){if(!E||!T||t.changedTouches.length>0&&(Math.abs(t.changedTouches[0].pageX-E)>10||Math.abs(t.changedTouches[0].pageY-T)>10))return;E=void 0,T=void 0,k=0,h&&(m=p,y=P);f.clearRect(0,0,l.width,l.height),drawExternal(),drawInternal(),StickStatus.xPosition=m,StickStatus.yPosition=y,StickStatus.x=((m-p)/v*100).toFixed(),StickStatus.y=((y-P)/v*100*-1).toFixed(),StickStatus.pressed=0,i(StickStatus)}),!1)):(l.addEventListener("mousedown",(function onMouseDown(t){k=1}),!1),document.addEventListener("mousemove",(function onMouseMove(t){1===k&&(m=t.pageX,y=t.pageY,"BODY"===l.offsetParent.tagName.toUpperCase()?(m-=l.offsetLeft,y-=l.offsetTop):(m-=l.offsetParent.offsetLeft,y-=l.offsetParent.offsetTop),f.clearRect(0,0,l.width,l.height),drawExternal(),drawInternal(),StickStatus.xPosition=m,StickStatus.yPosition=y,StickStatus.x=((m-p)/v*100).toFixed(),StickStatus.y=((y-P)/v*100*-1).toFixed(),StickStatus.pressed=1,i(StickStatus))}),!1),document.addEventListener("mouseup",(function onMouseUp(t){k=0,h&&(m=p,y=P);f.clearRect(0,0,l.width,l.height),drawExternal(),drawInternal(),StickStatus.xPosition=m,StickStatus.yPosition=y,StickStatus.x=((m-p)/v*100).toFixed(),StickStatus.y=((y-P)/v*100*-1).toFixed(),StickStatus.pressed=0,i(StickStatus)}),!1)),drawExternal(),drawInternal(),this.GetWidth=function(){return l.width},this.GetHeight=function(){return l.height},this.GetPosX=function(){return m},this.GetPosY=function(){return y},this.GetX=function(){return((m-p)/v*100).toFixed()},this.GetY=function(){return((y-P)/v*100*-1).toFixed()}};
+  </script>  
+  
+  
+  <script>
+    //var origin = window.location.origin;
+    var origin = "http://127.0.0.1";
+    var repl_password = "pass";
+
+    var editor;
+    var term;
+    var split_lib;
+    var ws;
+    var connected = false;
+
+    var paste_mode_detected = 0;
+    var arrow_detected = 0;
+
+    var binary_state = 0;
+    var put_file_name = null;
+    var put_file_data = null;
+    var get_file_name = null;
+    var get_file_data = null;
+    var run_uploaded_code = false;
+
+    var data_to_send = "";
+    var data_offset = 0;
+    var data_paste_mode = 0;
+    var myVar = setInterval(myTimer, 10);
+
+    var path = "/";
+
+    // Canvas for oled emulator
+    var oled_canvas;
+    var img = [];
+    img.length = 128*64*4;
+    var oled_ws_opened = 0;
+    var oled_sim_opened = 0;
+    var oled_buffer;
+    var oled_timer;
+
+
+    // array containing all the editors we will create
+    var editors = [];
+    var tabs_names = [];
+    var tabs_num = 0;
+    var selected_tab = 0;
+    var selected_tab_id = "editor_0";
+
+    var vibro_time = 100;
+    
+    var Joy1;
+    var Joy2;
+    var show_joystick = false;
+    var joystick_ws_opened = 0;
+    var joy_X = 0;
+    var joy_Y = 0;
+    var joy_pressed = 0;
+    
+    var joy2_X = 0;
+    var joy2_Y = 0;
+    var joy2_pressed = 0;
+    
+    
+    
+    function sleepFor(sleepDuration){
+        var now = new Date().getTime();
+        while(new Date().getTime() < now + sleepDuration){ 
+            /* Do nothing */ 
+        }
+    }
+    
+    function phone_vibrate() {
+      try {
+        navigator.vibrate(vibro_time);
+      } catch {
+        console.log("Cannot vibrate")
+      }
+    }
+
+
+    function select_tab(tab_idx)
+    {
+        selected_tab = tab_idx;
+        selected_tab_id = 'editor_' + tab_idx;
+        var i;
+
+        editor = editors[selected_tab].instance;
+        editor.focus();
+
+        for (i = 0; i < tabs_num; i++) {
+            if (selected_tab == i)
+            {
+                document.getElementById('tab_' + i).className = "active";
+                document.getElementById('editor_' + i).style.display = "block";
+            }
+            else
+            {
+                document.getElementById('tab_' + i).className = "";
+                document.getElementById('editor_' + i).style.display = "none";
+            }
+        }
+    }
+
+
+    function add_new_editor() {
+        var editor_container = document.getElementById("editor_div")
+        var edChild = document.createElement('pre');
+        edChild.id = 'editor_' + tabs_num;
+        editor_container.appendChild(edChild);
+
+        // initialize the editor in the tab
+        var editor = ace.edit('editor_' + tabs_num);
+            editor.setTheme("ace/theme/chrome");
+            editor.session.setMode("ace/mode/python");
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: true,
+                showInvisibles: true,
+                fixedWidthGutter: true,
+                showPrintMargin: false
+            });
+
+        editors.push({ id: tabs_num, instance: editor });
+        tabs_names.push("soubor_" + tabs_num);
+
+        select_tab(tabs_num);
+        editor.focus();
+        refresh_tabs();
+        tabs_num = tabs_num + 1;
+    }
+
+
+    function refresh_tabs() {
+        var tabs_container = document.getElementById("tabs_id")
+        var nav_bar = "";
+        var in_counter = 0;
+
+        tabs_names.forEach(function(entry) {
+            nav_bar = nav_bar + '<li><a id="tab_' + in_counter + '" onclick="select_tab(' + in_counter + ');">{name}</a></li>'.replace("{name}", entry);
+            in_counter = in_counter + 1;
+        });
+        nav_bar = nav_bar + '<li><a onclick="add_new_editor();">+</a></li>';
+
+        tabs_container.innerHTML = nav_bar;
+        document.getElementById('tab_' + selected_tab).className = "active";
+    }
+
+
+    //Timer for async send and read websockets
+    function myTimer() {
+        if (data_to_send.length > 0)
+        {
+            var lines = data_to_send.split("\r");
+            if (data_offset == 0 && data_paste_mode == 1)
+            {
+            ws.send("\x05");
+            }
+
+            if (paste_mode_detected > 0 && data_paste_mode == 1 || arrow_detected > 0 && data_paste_mode == 0)
+            {
+                ws.send(lines[data_offset] + "\r");
+                paste_mode_detected = 0;
+                arrow_detected = 0;
+                data_offset += 1;
+            }
+
+            if (data_offset >= lines.length)
+            {
+                data_to_send = "";
+                data_offset = 0;
+                if (data_paste_mode == 1)
+                {
+                    ws.send("\x04");
+                }
+            }
+        }
+    }
+
+
+    function runCode() {
+        //var str_code = editor.getValue();
+        //data_paste_mode = 1;
+        //data_to_send = str_code.replace(/\r\n|\r|\n/g, "\r");
+        //data_offset = 0;
+        
+        var save_code = editor.getValue().replace(/\r\n|\r|\n/g, "\r");
+        
+        if (document.getElementById("autostart").checked)
+        {
+            save_code = "#autostart*\r" + save_code;
+        }
+
+        put_file_name = "idecode";
+        put_file_data = new Uint8Array(stringToArray(save_code));
+        //console.log(escape(put_file_name) + ' - ' + put_file_data.length + ' bytes');
+        run_uploaded_code = true;
+        put_file();
+    }
+
+
+
+    function getWidth() {
+      return Math.max(
+        document.body.scrollWidth,
+        document.documentElement.scrollWidth,
+        document.body.offsetWidth,
+        document.documentElement.offsetWidth,
+        document.documentElement.clientWidth
+      );
+    }
+
+    function getHeight() {
+      return Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.offsetHeight,
+        document.documentElement.clientHeight
+      );
+    }
+
+
+
+    function calculate_size(win) {
+        var cols = (getWidth() / 6.2) | 0;
+        //var rows = ((getHeight() / 6) / 15) | 0;
+        var rows = (document.getElementById("terminal_div").offsetHeight / 13.5) | 0;
+        return [cols, rows];
+    }
+
+
+    (function() {
+        window.onload = function() {
+
+            add_new_editor();
+
+            // On Web
+            ace.config.set('basePath', '/');
+            ace.config.set('modePath', '/');
+            ace.config.set('themePath', '/');
+
+            // Local Filesystem
+            //ace.config.set('basePath', '');
+            //ace.config.set('modePath', '');
+            //ace.config.set('themePath', '');
+            
+            var size_layout = [85,15];
+            if (getHeight() < 700) {size_layout = [75,25];}
+            
+            split_lib = Split(['#editor_div', '#terminal_div'], {
+                direction: 'vertical',
+                sizes: size_layout,
+                minSize: [32, 90],
+                gutterSize: 5,
+                cursor: 'row-resize',
+                onDragEnd: function(sizes) {
+                    //console.log(sizes);
+                    var size = calculate_size(self);
+                    term.resize(size[0], size[1]);
+                    editor.resize();
+                },
+            })
+
+            var size = calculate_size(self);
+            term = new Terminal({
+                cols: size[0],
+                rows: size[1],
+                useStyle: true,
+                screenKeys: true,
+                cursorBlink: false
+            });
+
+            refresh_tabs();
+
+          term.open(document.getElementById("term"),false);
+          connect(origin.replace("http","ws") + ":8266");
+          
+          
+          Joy1 = new JoyStick('joy1Div', {}, function(stickData) {
+            joy_X = stickData.x;
+            joy_Y = stickData.y;
+            joy_pressed = stickData.pressed;
+            //console.log(stickData);
+          });
+          
+          Joy2 = new JoyStick('joy2Div', {}, function(stickData) {
+            joy2_X = stickData.x;
+            joy2_Y = stickData.y;
+            joy2_pressed = stickData.pressed;
+            //console.log(stickData);
+          });
+          
+          
+          
+        };
+        
+        window.addEventListener('resize', function() {      
+            var size = calculate_size(self);
+            term.resize(size[0], size[1]);
+        });
+        
+        
+    }).call(this);
+
+
+    function update_file_status(s) {
+        //document.getElementById('file-status').innerHTML = s;
+        //console.log(s);
+        term.write(s);
+    }
+
+
+    function prepare_for_connect() {
+        connect(origin.replace("http","ws") + ":8266");
+    }
+
+    function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    }
+
+    function replaceAll(str, find, replace) {
+      return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+    }
+    
+    function delete_non_ascii(in_string) {
+        sdiak="ÁÂÄĄáâäąČčĆćÇçĈĉĎĐďđÉÉĚËĒĖĘéěëēėęĜĝĞğĠġĢģĤĥĦħÍÎíîĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĿŀŁłĹĽĺľŇŃŅŊŋņňńŉÓÖÔŐØŌōóöőôøŘřŔŕŖŗŠšŚśŜŝŞşŢţŤťŦŧŨũŪūŬŭŮůŰűÚÜúüűŲųŴŵÝYŶŷýyŽžŹźŻżß";
+        bdiak="AAAAaaaaCcCcCcCcDDddEEEEEEEeeeeeeGgGgGgGgHhHhIIiiIiIiIiIiIiJjKkkLlLlLlLlLLllNNNNnnnnnOOOOOOooooooRrRrRrSsSsSsSsTtTtTtUuUuUuUuUuUUuuuUuWwYYYyyyZzZzZzs"
+
+        tx=""; txt=in_string;
+
+        for(p=0;p<txt.length;p++)
+        {
+            if (sdiak.indexOf(txt.charAt(p))!=-1)
+            {
+                tx+=bdiak.charAt(sdiak.indexOf(txt.charAt(p)));
+            }	
+            else 
+            {
+                tx+=txt.charAt(p);
+            }
+        }
+        
+      return tx.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+    }
+
+
+    function connect(url) {
+        //window.location.hash = url.substring(5);
+        ws = new WebSocket(url);
+        ws.binaryType = 'arraybuffer';
+        ws.onopen = function() {
+            term.removeAllListeners('data');
+            term.on('data', function(data) {
+                // Pasted data from clipboard will likely contain
+                // LF as EOL chars.
+                data = data.replace(/\n/g, "\r");
+                ws.send(data);
+            });
+
+            term.write('\x1b[32mWelcome to ESP32 MicroPython!\x1b[m\r\n');
+
+            ws.onmessage = function(event) {
+                if (event.data instanceof ArrayBuffer) {
+                    var data = new Uint8Array(event.data);
+                    switch (binary_state) {
+                        case 11:
+                            // first response for put
+                            if (decode_resp(data) == 0) {
+                                // send file data in chunks
+                                for (var offset = 0; offset < put_file_data.length; offset += 1024) {
+                                    ws.send(put_file_data.slice(offset, offset + 1024));
+                                }
+                                binary_state = 12;
+                            }
+                            break;
+                        case 12:
+                            // final response for put
+                            if (decode_resp(data) == 0) {
+                                
+                                document.getElementById("save_dialog").style.display = "none";
+                                if (run_uploaded_code == true)
+                                {
+                                    update_file_status(put_file_data.length + ' bytes OK\r\n');
+                                    sleepFor(500);
+                                    //ws.send('\x03');
+                                    //ws.send('\r');
+                                    ws.send('\rrun_code()\r');
+                                    run_uploaded_code = false;
+
+                                }
+                                else
+                                {
+                                    update_file_status('Saved ' + put_file_name + ', ' + put_file_data.length + ' bytes OK\r\n');
+                                    ws.send('\r');
+                                }
+                                
+                            } else {
+                                update_file_status('Failed saving ' + put_file_name + '\r\n');
+                                document.getElementById("save_dialog").style.display = "none";
+                            }
+                            binary_state = 0;
+                            break;
+
+                        case 21:
+                            // first response for get
+                            if (decode_resp(data) == 0) {
+                                binary_state = 22;
+                                var rec = new Uint8Array(1);
+                                rec[0] = 0;
+                                ws.send(rec);
+                            }
+                            break;
+                        case 22: {
+                            // file data
+                            var sz = data[0] | (data[1] << 8);
+                            if (data.length == 2 + sz) {
+                                // we assume that the data comes in single chunks
+                                if (sz == 0) {
+                                    // end of file
+                                    binary_state = 23;
+                                } else {
+                                    // accumulate incoming data to get_file_data
+                                    var new_buf = new Uint8Array(get_file_data.length + sz);
+                                    new_buf.set(get_file_data);
+                                    new_buf.set(data.slice(2), get_file_data.length);
+                                    get_file_data = new_buf;
+                                    update_file_status('Getting ' + get_file_name + ', ' + get_file_data.length + ' bytes\r\n');
+
+                                    var rec = new Uint8Array(1);
+                                    rec[0] = 0;
+                                    ws.send(rec);
+                                }
+                            } else {
+                                binary_state = 0;
+                            }
+                            break;
+                        }
+                        case 23:
+                            // final response
+                            if (decode_resp(data) == 0) {
+                                update_file_status('Got ' + get_file_name + ', ' + get_file_data.length + ' bytes');
+                                //saveAs(new Blob([get_file_data], {type: "application/octet-stream"}), get_file_name);
+                                editor.setValue(new TextDecoder("utf-8").decode(get_file_data), 1);
+                                ws.send('\r');
+                                close_load();
+                            } else {
+                                update_file_status('Failed getting ' + get_file_name + '\r\n');
+                            }
+                            binary_state = 0;
+                            break;
+                        case 31:
+                            // first (and last) response for GET_VER
+                            console.log('GET_VER', data);
+                            binary_state = 0;
+                            break;
+                    }
+                }
+
+                try
+                {
+                    if (event.data.includes("\r") == true)
+                    {
+                        paste_mode_detected += 1;
+                        //console.log("nl")
+                    }
+
+                    if (event.data.includes(">>>") == true)
+                    {
+                        arrow_detected += 1;
+                        //console.log(">>>")
+                    }
+                }
+                catch(err)
+                {
+                    console.log("socket receive binary data");
+                }
+
+                try
+                {
+                    
+                    if (event.data.startsWith("*FL*") == true)
+                    {
+                        if ((event.data.includes("*FL*") == true) && (event.data.includes("#FL#") == true))
+                        {
+                            var list_files = event.data.substring(
+                            event.data.lastIndexOf("*FL*") + 4, 
+                            event.data.lastIndexOf("#FL#")
+                            );
+                            
+                            var data = list_files.trim().split(";")
+                            var select = document.getElementById("file_list_input")
+                            select.innerHTML = "";
+
+                            if (path != '/') {
+                                data.unshift("..");
+                            }
+                            data.forEach(function(name) {
+                                opt = document.createElement("option");
+                                opt.value = path + name;
+                                opt.textContent = path + name;
+                                select.appendChild(opt);
+                            });
+                            document.getElementById("load_filename").disabled = false;
+                            document.getElementById("load_filename").placeholder = data[0];
+                                                   
+                            //console.log(list_files);
+                        }
+                        else
+                        {
+                            console.log("Chybi konec");
+                        }
+   
+                        
+                    }
+                    else if (event.data.startsWith("*wifi*") == true)
+                    {
+                        if ((event.data.includes("*wifi*") == true) && (event.data.includes("#wifi#") == true))
+                        {
+                            var networks = event.data.substring(
+                            event.data.lastIndexOf("*wifi*") + 6, 
+                            event.data.lastIndexOf("#wifi#")
+                            );
+                            
+                            networks = replaceAll(networks, ", ","###")
+                            networks = replaceAll(networks, ": ","***")
+                            networks = replaceAll(networks, "'","")
+
+                            networks = replaceAll(networks, "{","")
+                            networks = replaceAll(networks, "}","")
+                            
+                            var num_ssid = networks.split("###").length
+                            var i_num_ssid
+                            
+                            for (i_num_ssid = 0; i_num_ssid <num_ssid; i_num_ssid++) {
+                                
+                                document.getElementById("ssid" + i_num_ssid).value = networks.split("###")[i_num_ssid].split("***")[0];
+                                document.getElementById("pass" + i_num_ssid).value = networks.split("###")[i_num_ssid].split("***")[1];
+                            }
+                                                       
+                            //var data = list_files.trim().split(";")        
+                            //console.log(networks.split("###").length);
+                        }
+                        else
+                        {
+                            console.log("Chybi konec");
+                        }
+   
+                        
+                    }
+                    else
+                    {
+                        term.write(event.data);
+                    }
+                }
+                catch(err)
+                {
+                    term.write(event.data);
+                }
+
+
+            };
+            ws.send(repl_password + "\n");
+        };
+
+        ws.onclose = function() {
+            connected = false;
+            if (term) {
+                term.write('\x1b[31mDisconnected\x1b[m\r\n');
+            }
+            term.off('data');
+            prepare_for_connect();
+        }
+    }
+
+
+
+
+    function decode_resp(data) {
+        if (data[0] == 'W'.charCodeAt(0) && data[1] == 'B'.charCodeAt(0)) {
+            var code = data[2] | (data[3] << 8);
+            return code;
+        } else {
+            return -1;
+        }
+    }
+
+    function put_file() {
+        var dest_fname = put_file_name;
+        var dest_fsize = put_file_data.length;
+
+        // WEBREPL_FILE = "<2sBBQLH64s"
+        var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
+        rec[0] = 'W'.charCodeAt(0);
+        rec[1] = 'A'.charCodeAt(0);
+        rec[2] = 1; // put
+        rec[3] = 0;
+        rec[4] = 0; rec[5] = 0; rec[6] = 0; rec[7] = 0; rec[8] = 0; rec[9] = 0; rec[10] = 0; rec[11] = 0;
+        rec[12] = dest_fsize & 0xff; rec[13] = (dest_fsize >> 8) & 0xff; rec[14] = (dest_fsize >> 16) & 0xff; rec[15] = (dest_fsize >> 24) & 0xff;
+        rec[16] = dest_fname.length & 0xff; rec[17] = (dest_fname.length >> 8) & 0xff;
+        for (var i = 0; i < 64; ++i) {
+            if (i < dest_fname.length) {
+                rec[18 + i] = dest_fname.charCodeAt(i);
+            } else {
+                rec[18 + i] = 0;
+            }
+        }
+
+        // initiate put
+        binary_state = 11;
+        
+        if (run_uploaded_code == true)
+        {
+            update_file_status('Uploading......');
+        }
+        else
+        {
+            update_file_status('Saving ' + put_file_name + '......');
+        }
+        
+        ws.send(rec);
+    }
+
+    function get_file(filename) {
+        //var src_fname = document.getElementById('get_filename').value;
+        var src_fname = filename;
+
+        // WEBREPL_FILE = "<2sBBQLH64s"
+        var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
+        rec[0] = 'W'.charCodeAt(0);
+        rec[1] = 'A'.charCodeAt(0);
+        rec[2] = 2; // get
+        rec[3] = 0;
+        rec[4] = 0; rec[5] = 0; rec[6] = 0; rec[7] = 0; rec[8] = 0; rec[9] = 0; rec[10] = 0; rec[11] = 0;
+        rec[12] = 0; rec[13] = 0; rec[14] = 0; rec[15] = 0;
+        rec[16] = src_fname.length & 0xff; rec[17] = (src_fname.length >> 8) & 0xff;
+        for (var i = 0; i < 64; ++i) {
+            if (i < src_fname.length) {
+                rec[18 + i] = src_fname.charCodeAt(i);
+            } else {
+                rec[18 + i] = 0;
+            }
+        }
+
+        // initiate get
+        binary_state = 21;
+        get_file_name = src_fname;
+        get_file_data = new Uint8Array(0);
+        update_file_status('Getting ' + get_file_name + '...');
+        ws.send(rec);
+    }
+
+    function get_ver() {
+        // WEBREPL_REQ_S = "<2sBBQLH64s"
+        var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
+        rec[0] = 'W'.charCodeAt(0);
+        rec[1] = 'A'.charCodeAt(0);
+        rec[2] = 3; // GET_VER
+        // rest of "rec" is zero
+
+        // initiate GET_VER
+        binary_state = 31;
+        ws.send(rec);
+    }
+
+    function handle_put_file_select(evt) {
+        // The event holds a FileList object which is a list of File objects,
+        // but we only support single file selection at the moment.
+        var files = evt.target.files;
+
+        // Get the file info and load its data.
+        var f = files[0];
+        put_file_name = f.name;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            put_file_data = new Uint8Array(e.target.result);
+            document.getElementById('put-file-list').innerHTML = '' + escape(put_file_name) + ' - ' + put_file_data.length + ' bytes';
+            document.getElementById('put-file-button').disabled = false;
+        };
+        reader.readAsArrayBuffer(f);
+    }
+
+
+    function stringToArray(bufferString) {
+        let uint8Array = new TextEncoder("utf-8").encode(bufferString);
+        return uint8Array;
+    }
+
+
+    function save_code_to_esp_repl()
+    {
+        console.log("save");
+        document.getElementById("save_dialog_btn").value = "Ukládám";
+        document.getElementById("save_dialog_btn").disabled = true;
+
+        var save_code = editor.getValue().replace(/\r\n|\r|\n/g, "\r");
+        var save_filename = document.getElementById("save_filename").value;
+        
+        save_filename = delete_non_ascii(save_filename);
+        
+        // Delete non ascii characters from filename
+        document.getElementById("save_filename").value = save_filename;
+        
+        put_file_name = save_filename;
+        put_file_data = new Uint8Array(stringToArray(save_code));
+        console.log(escape(put_file_name) + ' - ' + put_file_data.length + ' bytes');
+        put_file();
+
+        tabs_names[selected_tab] = document.getElementById("save_filename").value;
+        refresh_tabs();
+    }
+
+    function close_save()
+    {
+        document.getElementById("save_dialog").style.display = "none";
+    }
+
+    function save_file_dialog()
+    {
+        document.getElementById("save_filename").value = tabs_names[selected_tab];
+        document.getElementById("save_dialog_btn").disabled = false;
+        document.getElementById("save_dialog_btn").value = "Uložit";
+        document.getElementById("save_dialog").style.display = "block";
+    }
+
+
+
+
+    function close_load()
+    {
+        document.getElementById("load_dialog").style.display = "none";
+    }
+    
+    
+    function close_wifi_dialog()
+    {
+        document.getElementById("wifi_dialog").style.display = "none";
+    }
+    
+    function open_wifi_dialog()
+    {
+        ws.send('\x03\x03list_wifi()\r');
+        document.getElementById("wifi_dialog").style.display = "block";
+    }
+    
+    function save_wifi_to_esp_repl()
+    {
+        console.log("save wifi");
+        
+        var save_str = "";
+        
+        
+        if (document.getElementById("ssid3").value.length > 0)
+        {   
+            save_str = save_str + document.getElementById("ssid3").value + ";" + document.getElementById("pass3").value + "\r";
+        }        
+        
+        if (document.getElementById("ssid2").value.length > 0)
+        {   
+            save_str = save_str + document.getElementById("ssid2").value + ";" + document.getElementById("pass2").value + "\r";
+        }
+        
+        if (document.getElementById("ssid1").value.length > 0)
+        {   
+            save_str = save_str + document.getElementById("ssid1").value + ";" + document.getElementById("pass1").value + "\r";
+        }
+        
+        if (document.getElementById("ssid0").value.length > 0)
+        {   
+            save_str = save_str + document.getElementById("ssid0").value + ";" + document.getElementById("pass0").value + "\r";
+        }
+        
+        console.log(save_str);
+
+        var save_code = save_str.replace(/\r\n|\r|\n/g, "\r");
+
+        put_file_name = "/wifi.cfg";
+        put_file_data = new Uint8Array(stringToArray(save_code));
+        console.log(escape(put_file_name) + ' - ' + put_file_data.length + ' bytes');
+        put_file();
+    }
+    
+    
+    
+    
+    
+
+    function open_file_dialog()
+    {
+        document.getElementById("load_filename").placeholder = "Načítám...";
+        document.getElementById("load_filename").disabled = true;
+        document.getElementById("load_filename").value = "";
+        async_list_files();
+        document.getElementById("load_dialog_btn").disabled = false;
+        document.getElementById("load_dialog_btn").value = "Načíst";
+        document.getElementById("load_dialog").style.display = "block";
+    }
+
+    function load_code_from_esp_repl()
+    {
+        console.log("load");
+        document.getElementById("load_dialog_btn").value = "Načítám...";
+        document.getElementById("load_dialog_btn").disabled = true;
+
+        var load_filename = document.getElementById("load_filename").value;
+        get_file(load_filename);
+
+        tabs_names[selected_tab] = document.getElementById("load_filename").value;
+        document.getElementById("save_filename").value = load_filename;
+        refresh_tabs();
+    }
+
+    
+    function load_filename_changed(el)
+    {
+        if (el.oldvalue.endsWith('/')) {
+          el.value = el.oldvalue + el.value;
+        }
+        if (el.value.endsWith('/..')) {
+          el.value = el.value.split("/").slice(0, -2).join("/") + "/";
+        }
+        if (el.value.endsWith('/')) {
+          async_list_files(el.value);
+        }
+        document.getElementById("load_dialog").style.display = "block";
+    }
+
+
+    function async_list_files(fpath)
+    {
+        fpath = fpath || '/'
+        ws.send('\x03\x03list_files("' + fpath + '")\r');
+        path = fpath;
+    }
+    
+  
+    function draw_framebuffer(data) {
+        buffer = data;
+        var ctx = oled_canvas.getContext("2d");
+        
+        for (let y = 0; y < 8; y++) {
+            for (let x = 0; x < 128; x++) {
+                for (let i = 0; i < 8; i++) 
+                {
+                    var offset = (x*4)+(y*4096)+(i*512);
+                    if ((buffer[(y*128) + x] & Math.pow(2, i)) > 0)
+                    {
+                      img[offset] = 0;
+                      img[offset+1] = 0;
+                      img[offset+2] = 0;
+                      img[offset+3] = 255;
+                    }
+                    else
+                    {
+                      img[offset] = 255;
+                      img[offset+1] = 255;
+                      img[offset+2] = 255;
+                      img[offset+3] = 255;
+                    }
+                    
+                }
+            }
+         }
+        
+        // Get a pointer to the current location in the image.
+        var palette = ctx.getImageData(0,0,128,64); //x,y,w,h
+        // Wrap your array as a Uint8ClampedArray
+        palette.data.set(new Uint8ClampedArray(img)); // assuming values 0..255, RGBA, pre-mult.
+        // Repost the data.
+        ctx.putImageData(palette,0,0);
+    }
+    
+    
+    function oled_sim_click() {
+        if (oled_sim_opened == 0)
+        {
+            document.getElementById("virtual_oled").style.display = "block";
+            document.getElementById("Oled_Canvas").style.display = "block";
+            oled_canvas = document.getElementById("Oled_Canvas");
+            oled_sim_opened = 1;
+            
+            oled_timer = setInterval(oledTimer, 250);
+
+            function oledTimer() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", origin + '/*FB');
+                xhr.timeout = 450;
+                xhr.send();
+                xhr.responseType = "arraybuffer";
+                xhr.ontimeout = function () {console.log(`timeout: ${xhr.status}`);}
+                xhr.onload = () => {
+                  if (xhr.readyState == 4 && xhr.status == 200) {
+                    // console.log("OK:" + xhr.response);
+                    oled_buffer = new Uint8Array(xhr.response);
+                    draw_framebuffer(oled_buffer);
+                  } else {
+                    console.log(`Error: ${xhr.status}`);
+                  }
+                };
+            }
+        }
+        else
+        {
+            clearInterval(oled_timer);
+            document.getElementById("virtual_oled").style.display = "none";
+            oled_sim_opened = 0;
+        }
+        
+    }
+    
+    
+    function showDropdown() {
+      var x = document.getElementById("more_menu");
+      if (x.style.display === "none" || x.style.display === "") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    
+    
+    function file_download(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+      
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      
+      element.click();
+      
+      document.body.removeChild(element);
+    }
+    
+    function code_download_pc() {
+        var save_code = editor.getValue();
+        file_download(tabs_names[selected_tab], save_code);
+    }
+    
+    
+    function code_upload_pc() {
+        document.getElementById('upload_file_input').addEventListener('change', readSingleFile, false);
+        document.getElementById('upload_file_input').click();
+    }
+    
+    
+    function readSingleFile(e) {
+      var file = e.target.files[0];
+      if (!file) {
+        return;
+      }
+      tabs_names[selected_tab] = file.name;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var contents = e.target.result;
+        editor.setValue(contents, 1);
+        refresh_tabs();
+      };
+      reader.readAsText(file);
+    }
+
+    // Prevence zavreni
+    window.onbeforeunload = (event) => {
+    event.preventDefault();
+    event.returnValue = '';
+    }
+    
+    
+    
+    
+    function joy_button_click() {
+        if (show_joystick == false)
+        {
+            document.getElementById("joy1Div").style.bottom = "18%";
+            document.getElementById("joy2Div").style.bottom = "18%";
+            show_joystick = true;
+            
+            joystick_timer = setInterval(joystickTimer, 125);
+            
+            function joystickTimer() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", origin + '/*JOY;' + joy_X + ";" + joy_Y + ";" + joy_pressed + ";" + joy2_X + ";" + joy2_Y + ";" + joy2_pressed);
+                xhr.timeout = 240;
+                xhr.send();
+                xhr.responseType = "text";
+                xhr.ontimeout = function () {console.log(`timeout: ${xhr.status}`);}
+                xhr.onload = () => {
+                  if (xhr.readyState == 4 && xhr.status == 200) {
+                    //console.log("OK:" + xhr.response);
+                  } else {
+                    console.log(`Error: ${xhr.status}`);
+                  }
+                };
+            }
+            
+        }
+        else
+        {
+            document.getElementById("joy1Div").style.bottom = "150%";
+            document.getElementById("joy2Div").style.bottom = "150%";
+            show_joystick = false;
+            
+            clearInterval(joystick_timer);
+        }
+        
+    }
+    
+    
+    
+
+
+  </script>
+  <title>Editor</title>
+  <style type="text/css" media="screen">
+    html,body {
+        height: 100%;
+    }
+
+    body {
+        overflow: hidden;
+        margin:0;
+        padding: 0px;
+        background-color: #F6F6F6;
+        box-sizing: border-box;
+    }
+
+    .ace_editor {
+        margin: 0;
+        position: relative;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width:100%;
+    }
+
+    #term {
+        margin: 0;
+        position: relative;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #000;
+        height: 100%;
+        width:100%;
+    }
+
+    .terminal {
+        border: #000 solid 2px;
+        background: #000;
+    }
+
+    .x, #save_dialog_btn, #load_dialog_btn {
+        cursor:pointer;
+    }
+
+    .split {
+         -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+         box-sizing: border-box;
+         overflow-y: auto;
+         overflow-x: hidden;
+    }
+
+    .content {
+         border: 0px solid #C0C0C0;
+    }
+
+    .gutter {
+         background-color: transparent;
+    }
+
+    .gutter.gutter-vertical {
+         cursor: row-resize;
+    }
+
+    #editor_div {
+        padding-top: 64px;
+    }
+
+
+    #save_dialog, #load_dialog {
+        position: absolute;
+        top: 70px;
+        left: 60px;
+        height: 140px;
+        width:250px;
+        background: #e6e6e6;
+        border-radius: 6px;
+        border: 2px solid #a8a8a8;
+        display: none;
+    }
+    
+    
+    
+    #wifi_dialog {
+        position: absolute;
+        top: 70px;
+        left: 60px;
+        height: 250px;
+        width:300px;
+        background: #e6e6e6;
+        border-radius: 6px;
+        border: 2px solid #a8a8a8;
+        display: none;
+    }
+    
+    
+    
+    
+    #virtual_oled  {
+        position: absolute;
+        top: 74px;
+        right: 26px;
+        height: 64px;
+        width:128px;
+        background: #FFFFFF;
+        border: 1px solid #a8a8a8;
+        display: none;
+    }
+
+    input{
+        display: block;
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        border-radius: 5px;
+        font-size: 16px;
+        background: #fAfAfA;
+        width: 90%;
+        padding: 10px;
+        margin: 10px 10px;
+        -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+        -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+        box-sizing: border-box;         /* Opera/IE 8+ */
+    }
+
+    .x {
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 32px;
+        height: 24px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #E0E0E0;
+      position: fixed;
+      top: 36px;
+      height: 28px;
+      width: 100%;
+    }
+
+    li {
+      float: left;
+      border: 1px solid #BBBBBB;
+    }
+
+    li a {
+      display: block;
+      color: black;
+      text-align: center;
+      padding: 3px 16px;
+      text-decoration: none;
+      cursor:pointer;
+    }
+
+    li a:hover, .active {
+      background-color: #B0B0B0;
+    }
+    
+    #more_button  {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        height: 36px;
+        width: 60px;
+        background: #f6f6f6;
+        display: block;
+        text-align: center;
+        cursor: pointer;
+        font-size: 26px; /* The size of the dots */
+        caret-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    } 
+    
+    
+    #more_menu  {
+        position: absolute;
+        top: 40px;
+        right: 20px;
+        height: 224px;
+        width: 200px;
+        background: #f6f6f6;
+        text-align: Left;
+        cursor: pointer;
+        font-size: 15px;
+        caret-color: transparent;
+        border: 1px solid #a8a8a8;
+        display: none;
+        border-radius: 4px;
+        caret-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    } 
+
+
+  </style>
+</head>
+<body>
+    <img src="topbar.png" width="400" height="32" usemap="#icon_map" style="position: absolute; top: 2px; left: 0px">
+    <map name="icon_map">
+        <area alt="Spustit kód" title="Spustit kód" shape="rect" coords="1,1,36,31" onclick="phone_vibrate();runCode();" style="cursor: pointer;"/>
+        <area alt="Zastavit vykonávání programu" title="Zastavit vykonávání programu" shape="rect" coords="40,1,75,31" onclick="phone_vibrate();ws.send('\x03\x03stop_code()\r');" style="cursor: pointer;"/>
+        <area alt="Otevřít soubor z ESP" title="Otevřít soubor z ESP" shape="rect" coords="78,1,113,31" onclick="phone_vibrate();open_file_dialog();" style="cursor: pointer;"/>
+        <area alt="Uložit soubor do ESP" title="Uložit soubor do ESP" shape="rect" coords="118,1,152,31" onclick="phone_vibrate();save_file_dialog();" style="cursor: pointer;"/>
+        
+        <area alt="Zpět" title="Zpět" shape="rect" coords="164,1,198,31" onclick="phone_vibrate();editor.undo();" style="cursor: pointer;"/>
+        <area alt="Znovu" title="Znovu" shape="rect" coords="203,1,240,31" onclick="phone_vibrate();editor.redo();" style="cursor: pointer;"/>
+        
+        <area alt="Náhled na OLED display" title="Náhled na OLED display" shape="rect" coords="250,1,286,31" onclick="phone_vibrate();oled_sim_click();" style="cursor: pointer;"/>
+        
+        <area alt="Virtuální joystick" title="Virtuální joystick" shape="rect" coords="290,1,325,31" onclick="phone_vibrate();joy_button_click();" style="cursor: pointer;"/>
+    </map>
+    
+    <input id="upload_file_input" type="file" style="position: absolute; top: 99%; left: 99%; width: 0px; height: 0px; padding: 0px"/>
+
+    <ul id="tabs_id">
+    </ul>
+
+    <div id="editor_div" class="split content"></div>
+    <div id="terminal_div" class="split content"><div id="term"></div></div>
+
+    <div id="more_button" onclick="showDropdown();">&#x2630;</div>
+    <div id="more_menu" >
+        <div>
+          <input title="Po zapnutí procesoru se soubor automaticky spustí" type="checkbox" id="autostart" name="autostart" onclick="setTimeout(function(){showDropdown()}, 150);" style="margin-right: 5px; width: 28px; height: 28px; vertical-align: -8px; display: inline;">
+          <label title="Po zapnutí procesoru se soubor automaticky spustí" for="autostart">Automaticky spustit</label>
+        </div>
+        
+        <hr>
+        
+        <button type="button" title="Soubor z PC načíst do editoru" onclick="code_upload_pc();showDropdown(); " style="margin: 2px; width: 98%; height: 42px; vertical-align: middle; display: inline;">Otevřít projekt z PC</button>
+        <button type="button" title="Stáhnout právě otevřený soubor do PC" onclick="code_download_pc();showDropdown(); " style="margin: 2px; width: 98%; height: 42px; vertical-align: middle; display: inline;">Uložit projekt do PC</button>
+        <hr>
+        <button type="button" title="Otevře nastavení wifi sítí ke kterým se může modul připojit" onclick="open_wifi_dialog();showDropdown(); " style="margin: 2px; width: 98%; height: 42px; vertical-align: middle; display: inline;">Nastavení WIFI</button>
+ 
+    </div>
+
+
+    <div id="save_dialog" style="z-index: 10;">
+    <div class="x" onclick="close_save();">x</div>
+        <form  class="form_style" action="">
+          <p align="center" style="margin: 10px;">Uložit soubor do ESP</p>
+          <input type="text" id="save_filename" name="save_filename" value="test.py" placeholder="file.py">
+          <input type="submit" id="save_dialog_btn" value="Uložit" onclick="save_code_to_esp_repl(); return false;">
+        </form>
+    </div>
+
+    <div id="load_dialog" style="z-index: 10;">
+    <div class="x" onclick="close_load();">x</div>
+        <form  class="form_style" action="">
+          <p align="center" style="margin: 10px;">Načíst soubor z ESP</p>
+          <input type="text" id="load_filename" name="load_filename" list="file_list_input" placeholder="Načítám..." onfocus="this.oldvalue = this.value" oninput="load_filename_changed(this)">
+                <datalist id="file_list_input">
+                    <option>/boot.py</option>
+                    <option>/main.py</option>
+                </datalist>
+          <input type="submit" id="load_dialog_btn" value="Načíst soubor" onclick="load_code_from_esp_repl(); return false;">
+        </form>
+    </div>
+    
+    
+    <div id="wifi_dialog" style="z-index: 10;">
+    <div class="x" onclick="close_wifi_dialog();">x</div>
+        <form  class="form_style" action="">
+          <p align="center" style="margin: 10px;">Nastavení Wifi</p>
+
+            <input name="ssid0" id="ssid0" placeholder="SSID 1" style="position: absolute; top: 35px; left: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            <input name="pass0" id="pass0" placeholder="Heslo" style="position: absolute; top: 35px; right: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+           
+            <input name="ssid1" id="ssid1" placeholder="SSID 2" style="position: absolute; top: 75px; left: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            <input name="pass1" id="pass1" placeholder="Heslo" style="position: absolute; top: 75px; right: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            
+            <input name="ssid2" id="ssid2" placeholder="SSID 3" style="position: absolute; top: 115px; left: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            <input name="pass2" id="pass2" placeholder="Heslo" style="position: absolute; top: 115px; right: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            
+            <input name="ssid3" id="ssid3" placeholder="SSID 4" style="position: absolute; top: 155px; left: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            <input name="pass3" id="pass3" placeholder="Heslo" style="position: absolute; top: 155px; right: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            
+            <input type="submit" id="wifi_save_dialog_btn" value="Uložit" onclick="save_wifi_to_esp_repl(); return false;" style="position: absolute; top: 200px; left: 3%; width: 94%; height: 40px; font-size: 14px; margin: 0px 0px;">
+        </form>
+    </div>
+    
+    
+    
+    <div id="virtual_oled" style="z-index: 8;">
+        <canvas id="Oled_Canvas" width="128" height="64" style="border:1px solid #000000;"></canvas>
+    </div>
+    
+    <div id="joy1Div" style="position: absolute; bottom: 150%; right: 2%;width:230px;height:230px;z-index: 100000;"></div>
+    <div id="joy2Div" style="position: absolute; bottom: 150%; left: 2%;width:230px;height:230px;z-index: 100000;"></div>
+    
+</body>
+</html>

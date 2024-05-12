@@ -1,0 +1,2683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=0.68, maximum-scale=0.68, user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="xterm.css">
+  <script src="xterm.js"></script>
+  <script src="split.min.js"></script>
+  <script src="ace.js"></script>
+  <script src="ext-language_tools.js"></script>
+  <script src="blockly_compressed.js"></script>
+  <script src="blocks_compressed.js"></script>
+  <script src="python_compressed.js"></script>
+  <script src="cs.js"></script>
+
+  <script>
+    // Joystick library
+    let StickStatus={xPosition:0,yPosition:0,x:0,y:0,pressed:0};var JoyStick=function(t,e,i){var o=void 0===(e=e||{}).title?"joystick":e.title,n=void 0===e.width?0:e.width,r=void 0===e.height?0:e.height,d=void 0===e.internalFillColor?"#AAAAAA":e.internalFillColor,h=void 0===e.internalLineWidth?2:e.internalLineWidth,a=void 0===e.internalStrokeColor?"#333333":e.internalStrokeColor,$=void 0===e.externalLineWidth?2:e.externalLineWidth,s=void 0===e.externalStrokeColor?"#808080":e.externalStrokeColor,c=void 0===e.autoReturnToCenter||e.autoReturnToCenter;i=i||function(t){};var f=document.getElementById(t);f.style.touchAction="none";var l=document.createElement("canvas");l.id=o,0===n&&(n=f.clientWidth),0===r&&(r=f.clientHeight),l.width=n,l.height=r,f.appendChild(l);var u=l.getContext("2d"),g=0,_=2*Math.PI,v=(l.width-(l.width/2+10))/2,p=v+5,x=v+30,P=l.width/2,y=l.height/2,w=(l.width,l.height,P),C=y,L=void 0,F=void 0;try{l.addEventListener("touchstart",E,!1),document.addEventListener("touchmove",function t(e){1===g&&e.targetTouches[0].target===l&&(w=e.targetTouches[0].pageX,C=e.targetTouches[0].pageY,L=w,F=C,"BODY"===l.offsetParent.tagName.toUpperCase()?(w-=l.offsetLeft,C-=l.offsetTop):(w-=l.offsetParent.offsetLeft,C-=l.offsetParent.offsetTop),u.clearRect(0,0,l.width,l.height),S(),m(),StickStatus.xPosition=w,StickStatus.yPosition=C,StickStatus.x=(100*((w-P)/p)).toFixed(),StickStatus.y=(-(100*((C-y)/p)*1)).toFixed(),StickStatus.pressed=1,i(StickStatus))},!1),document.addEventListener("touchend",function t(e){!L||!F||e.changedTouches.length>0&&(Math.abs(e.changedTouches[0].pageX-L)>10||Math.abs(e.changedTouches[0].pageY-F)>10)||(L=void 0,F=void 0,g=0,c&&(w=P,C=y),u.clearRect(0,0,l.width,l.height),S(),m(),StickStatus.xPosition=w,StickStatus.yPosition=C,StickStatus.x=(100*((w-P)/p)).toFixed(),StickStatus.y=(-(100*((C-y)/p)*1)).toFixed(),StickStatus.pressed=0,i(StickStatus))},!1)}catch(T){console.log(T)}try{l.addEventListener("mousedown",W,!1),document.addEventListener("mousemove",function t(e){1===g&&(w=e.pageX,C=e.pageY,"BODY"===l.offsetParent.tagName.toUpperCase()?(w-=l.offsetLeft,C-=l.offsetTop):(w-=l.offsetParent.offsetLeft,C-=l.offsetParent.offsetTop),u.clearRect(0,0,l.width,l.height),S(),m(),StickStatus.xPosition=w,StickStatus.yPosition=C,StickStatus.x=(100*((w-P)/p)).toFixed(),StickStatus.y=(-(100*((C-y)/p)*1)).toFixed(),StickStatus.pressed=1,i(StickStatus))},!1),document.addEventListener("mouseup",function t(e){g=0,c&&(w=P,C=y),u.clearRect(0,0,l.width,l.height),S(),m(),StickStatus.xPosition=w,StickStatus.yPosition=C,StickStatus.x=(100*((w-P)/p)).toFixed(),StickStatus.y=(-(100*((C-y)/p)*1)).toFixed(),StickStatus.pressed=0,i(StickStatus)},!1)}catch(k){console.log(k)}function S(){u.beginPath(),u.arc(P,y,x,0,_,!1),u.lineWidth=$,u.strokeStyle=s,u.stroke()}function m(){u.beginPath(),w<v&&(w=p),w+v>l.width&&(w=l.width-p),C<v&&(C=p),C+v>l.height&&(C=l.height-p),u.arc(w,C,v,0,_,!1);var t=u.createRadialGradient(P,y,5,P,y,200);t.addColorStop(0,d),t.addColorStop(1,a),u.fillStyle=t,u.fill(),u.lineWidth=h,u.strokeStyle=a,u.stroke()}function E(t){g=1}function W(t){g=1}S(),m(),this.GetWidth=function(){return l.width},this.GetHeight=function(){return l.height},this.GetPosX=function(){return w},this.GetPosY=function(){return C},this.GetX=function(){return(100*((w-P)/p)).toFixed()},this.GetY=function(){return(-(100*((C-y)/p)*1)).toFixed()}};
+  </script>
+  
+  <script>
+    // Pako Gzip
+    !function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"function"==typeof define&&define.amd?define(["exports"],e):e((t="undefined"!=typeof globalThis?globalThis:t||self).pako={})}(this,(function(t){"use strict";function e(t){let e=t.length;for(;--e>=0;)t[e]=0}const a=256,s=286,n=30,r=15,i=new Uint8Array([0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0]),_=new Uint8Array([0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13]),l=new Uint8Array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,7]),h=new Uint8Array([16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15]),o=new Array(576);e(o);const d=new Array(60);e(d);const u=new Array(512);e(u);const f=new Array(256);e(f);const c=new Array(29);e(c);const p=new Array(n);function g(t,e,a,s,n){this.static_tree=t,this.extra_bits=e,this.extra_base=a,this.elems=s,this.max_length=n,this.has_stree=t&&t.length}let w,m,b;function y(t,e){this.dyn_tree=t,this.max_code=0,this.stat_desc=e}e(p);const v=t=>t<256?u[t]:u[256+(t>>>7)],z=(t,e)=>{t.pending_buf[t.pending++]=255&e,t.pending_buf[t.pending++]=e>>>8&255},k=(t,e,a)=>{t.bi_valid>16-a?(t.bi_buf|=e<<t.bi_valid&65535,z(t,t.bi_buf),t.bi_buf=e>>16-t.bi_valid,t.bi_valid+=a-16):(t.bi_buf|=e<<t.bi_valid&65535,t.bi_valid+=a)},x=(t,e,a)=>{k(t,a[2*e],a[2*e+1])},A=(t,e)=>{let a=0;do{a|=1&t,t>>>=1,a<<=1}while(--e>0);return a>>>1},E=(t,e,a)=>{const s=new Array(16);let n,i,_=0;for(n=1;n<=r;n++)_=_+a[n-1]<<1,s[n]=_;for(i=0;i<=e;i++){let e=t[2*i+1];0!==e&&(t[2*i]=A(s[e]++,e))}},Z=t=>{let e;for(e=0;e<s;e++)t.dyn_ltree[2*e]=0;for(e=0;e<n;e++)t.dyn_dtree[2*e]=0;for(e=0;e<19;e++)t.bl_tree[2*e]=0;t.dyn_ltree[512]=1,t.opt_len=t.static_len=0,t.sym_next=t.matches=0},U=t=>{t.bi_valid>8?z(t,t.bi_buf):t.bi_valid>0&&(t.pending_buf[t.pending++]=t.bi_buf),t.bi_buf=0,t.bi_valid=0},R=(t,e,a,s)=>{const n=2*e,r=2*a;return t[n]<t[r]||t[n]===t[r]&&s[e]<=s[a]},S=(t,e,a)=>{const s=t.heap[a];let n=a<<1;for(;n<=t.heap_len&&(n<t.heap_len&&R(e,t.heap[n+1],t.heap[n],t.depth)&&n++,!R(e,s,t.heap[n],t.depth));)t.heap[a]=t.heap[n],a=n,n<<=1;t.heap[a]=s},T=(t,e,s)=>{let n,r,l,h,o=0;if(0!==t.sym_next)do{n=255&t.pending_buf[t.sym_buf+o++],n+=(255&t.pending_buf[t.sym_buf+o++])<<8,r=t.pending_buf[t.sym_buf+o++],0===n?x(t,r,e):(l=f[r],x(t,l+a+1,e),h=i[l],0!==h&&(r-=c[l],k(t,r,h)),n--,l=v(n),x(t,l,s),h=_[l],0!==h&&(n-=p[l],k(t,n,h)))}while(o<t.sym_next);x(t,256,e)},L=(t,e)=>{const a=e.dyn_tree,s=e.stat_desc.static_tree,n=e.stat_desc.has_stree,i=e.stat_desc.elems;let _,l,h,o=-1;for(t.heap_len=0,t.heap_max=573,_=0;_<i;_++)0!==a[2*_]?(t.heap[++t.heap_len]=o=_,t.depth[_]=0):a[2*_+1]=0;for(;t.heap_len<2;)h=t.heap[++t.heap_len]=o<2?++o:0,a[2*h]=1,t.depth[h]=0,t.opt_len--,n&&(t.static_len-=s[2*h+1]);for(e.max_code=o,_=t.heap_len>>1;_>=1;_--)S(t,a,_);h=i;do{_=t.heap[1],t.heap[1]=t.heap[t.heap_len--],S(t,a,1),l=t.heap[1],t.heap[--t.heap_max]=_,t.heap[--t.heap_max]=l,a[2*h]=a[2*_]+a[2*l],t.depth[h]=(t.depth[_]>=t.depth[l]?t.depth[_]:t.depth[l])+1,a[2*_+1]=a[2*l+1]=h,t.heap[1]=h++,S(t,a,1)}while(t.heap_len>=2);t.heap[--t.heap_max]=t.heap[1],((t,e)=>{const a=e.dyn_tree,s=e.max_code,n=e.stat_desc.static_tree,i=e.stat_desc.has_stree,_=e.stat_desc.extra_bits,l=e.stat_desc.extra_base,h=e.stat_desc.max_length;let o,d,u,f,c,p,g=0;for(f=0;f<=r;f++)t.bl_count[f]=0;for(a[2*t.heap[t.heap_max]+1]=0,o=t.heap_max+1;o<573;o++)d=t.heap[o],f=a[2*a[2*d+1]+1]+1,f>h&&(f=h,g++),a[2*d+1]=f,d>s||(t.bl_count[f]++,c=0,d>=l&&(c=_[d-l]),p=a[2*d],t.opt_len+=p*(f+c),i&&(t.static_len+=p*(n[2*d+1]+c)));if(0!==g){do{for(f=h-1;0===t.bl_count[f];)f--;t.bl_count[f]--,t.bl_count[f+1]+=2,t.bl_count[h]--,g-=2}while(g>0);for(f=h;0!==f;f--)for(d=t.bl_count[f];0!==d;)u=t.heap[--o],u>s||(a[2*u+1]!==f&&(t.opt_len+=(f-a[2*u+1])*a[2*u],a[2*u+1]=f),d--)}})(t,e),E(a,o,t.bl_count)},F=(t,e,a)=>{let s,n,r=-1,i=e[1],_=0,l=7,h=4;for(0===i&&(l=138,h=3),e[2*(a+1)+1]=65535,s=0;s<=a;s++)n=i,i=e[2*(s+1)+1],++_<l&&n===i||(_<h?t.bl_tree[2*n]+=_:0!==n?(n!==r&&t.bl_tree[2*n]++,t.bl_tree[32]++):_<=10?t.bl_tree[34]++:t.bl_tree[36]++,_=0,r=n,0===i?(l=138,h=3):n===i?(l=6,h=3):(l=7,h=4))},O=(t,e,a)=>{let s,n,r=-1,i=e[1],_=0,l=7,h=4;for(0===i&&(l=138,h=3),s=0;s<=a;s++)if(n=i,i=e[2*(s+1)+1],!(++_<l&&n===i)){if(_<h)do{x(t,n,t.bl_tree)}while(0!=--_);else 0!==n?(n!==r&&(x(t,n,t.bl_tree),_--),x(t,16,t.bl_tree),k(t,_-3,2)):_<=10?(x(t,17,t.bl_tree),k(t,_-3,3)):(x(t,18,t.bl_tree),k(t,_-11,7));_=0,r=n,0===i?(l=138,h=3):n===i?(l=6,h=3):(l=7,h=4)}};let D=!1;const N=(t,e,a,s)=>{k(t,0+(s?1:0),3),U(t),z(t,a),z(t,~a),a&&t.pending_buf.set(t.window.subarray(e,e+a),t.pending),t.pending+=a};var I=(t,e,s,n)=>{let r,i,_=0;t.level>0?(2===t.strm.data_type&&(t.strm.data_type=(t=>{let e,s=4093624447;for(e=0;e<=31;e++,s>>>=1)if(1&s&&0!==t.dyn_ltree[2*e])return 0;if(0!==t.dyn_ltree[18]||0!==t.dyn_ltree[20]||0!==t.dyn_ltree[26])return 1;for(e=32;e<a;e++)if(0!==t.dyn_ltree[2*e])return 1;return 0})(t)),L(t,t.l_desc),L(t,t.d_desc),_=(t=>{let e;for(F(t,t.dyn_ltree,t.l_desc.max_code),F(t,t.dyn_dtree,t.d_desc.max_code),L(t,t.bl_desc),e=18;e>=3&&0===t.bl_tree[2*h[e]+1];e--);return t.opt_len+=3*(e+1)+5+5+4,e})(t),r=t.opt_len+3+7>>>3,i=t.static_len+3+7>>>3,i<=r&&(r=i)):r=i=s+5,s+4<=r&&-1!==e?N(t,e,s,n):4===t.strategy||i===r?(k(t,2+(n?1:0),3),T(t,o,d)):(k(t,4+(n?1:0),3),((t,e,a,s)=>{let n;for(k(t,e-257,5),k(t,a-1,5),k(t,s-4,4),n=0;n<s;n++)k(t,t.bl_tree[2*h[n]+1],3);O(t,t.dyn_ltree,e-1),O(t,t.dyn_dtree,a-1)})(t,t.l_desc.max_code+1,t.d_desc.max_code+1,_+1),T(t,t.dyn_ltree,t.dyn_dtree)),Z(t),n&&U(t)},C={_tr_init:t=>{D||((()=>{let t,e,a,h,y;const v=new Array(16);for(a=0,h=0;h<28;h++)for(c[h]=a,t=0;t<1<<i[h];t++)f[a++]=h;for(f[a-1]=h,y=0,h=0;h<16;h++)for(p[h]=y,t=0;t<1<<_[h];t++)u[y++]=h;for(y>>=7;h<n;h++)for(p[h]=y<<7,t=0;t<1<<_[h]-7;t++)u[256+y++]=h;for(e=0;e<=r;e++)v[e]=0;for(t=0;t<=143;)o[2*t+1]=8,t++,v[8]++;for(;t<=255;)o[2*t+1]=9,t++,v[9]++;for(;t<=279;)o[2*t+1]=7,t++,v[7]++;for(;t<=287;)o[2*t+1]=8,t++,v[8]++;for(E(o,287,v),t=0;t<n;t++)d[2*t+1]=5,d[2*t]=A(t,5);w=new g(o,i,257,s,r),m=new g(d,_,0,n,r),b=new g(new Array(0),l,0,19,7)})(),D=!0),t.l_desc=new y(t.dyn_ltree,w),t.d_desc=new y(t.dyn_dtree,m),t.bl_desc=new y(t.bl_tree,b),t.bi_buf=0,t.bi_valid=0,Z(t)},_tr_stored_block:N,_tr_flush_block:I,_tr_tally:(t,e,s)=>(t.pending_buf[t.sym_buf+t.sym_next++]=e,t.pending_buf[t.sym_buf+t.sym_next++]=e>>8,t.pending_buf[t.sym_buf+t.sym_next++]=s,0===e?t.dyn_ltree[2*s]++:(t.matches++,e--,t.dyn_ltree[2*(f[s]+a+1)]++,t.dyn_dtree[2*v(e)]++),t.sym_next===t.sym_end),_tr_align:t=>{k(t,2,3),x(t,256,o),(t=>{16===t.bi_valid?(z(t,t.bi_buf),t.bi_buf=0,t.bi_valid=0):t.bi_valid>=8&&(t.pending_buf[t.pending++]=255&t.bi_buf,t.bi_buf>>=8,t.bi_valid-=8)})(t)}};var B=(t,e,a,s)=>{let n=65535&t|0,r=t>>>16&65535|0,i=0;for(;0!==a;){i=a>2e3?2e3:a,a-=i;do{n=n+e[s++]|0,r=r+n|0}while(--i);n%=65521,r%=65521}return n|r<<16|0};const H=new Uint32Array((()=>{let t,e=[];for(var a=0;a<256;a++){t=a;for(var s=0;s<8;s++)t=1&t?3988292384^t>>>1:t>>>1;e[a]=t}return e})());var M=(t,e,a,s)=>{const n=H,r=s+a;t^=-1;for(let a=s;a<r;a++)t=t>>>8^n[255&(t^e[a])];return-1^t},P={2:"need dictionary",1:"stream end",0:"","-1":"file error","-2":"stream error","-3":"data error","-4":"insufficient memory","-5":"buffer error","-6":"incompatible version"},j={Z_NO_FLUSH:0,Z_PARTIAL_FLUSH:1,Z_SYNC_FLUSH:2,Z_FULL_FLUSH:3,Z_FINISH:4,Z_BLOCK:5,Z_TREES:6,Z_OK:0,Z_STREAM_END:1,Z_NEED_DICT:2,Z_ERRNO:-1,Z_STREAM_ERROR:-2,Z_DATA_ERROR:-3,Z_MEM_ERROR:-4,Z_BUF_ERROR:-5,Z_NO_COMPRESSION:0,Z_BEST_SPEED:1,Z_BEST_COMPRESSION:9,Z_DEFAULT_COMPRESSION:-1,Z_FILTERED:1,Z_HUFFMAN_ONLY:2,Z_RLE:3,Z_FIXED:4,Z_DEFAULT_STRATEGY:0,Z_BINARY:0,Z_TEXT:1,Z_UNKNOWN:2,Z_DEFLATED:8};const{_tr_init:K,_tr_stored_block:Y,_tr_flush_block:G,_tr_tally:X,_tr_align:W}=C,{Z_NO_FLUSH:q,Z_PARTIAL_FLUSH:J,Z_FULL_FLUSH:Q,Z_FINISH:V,Z_BLOCK:$,Z_OK:tt,Z_STREAM_END:et,Z_STREAM_ERROR:at,Z_DATA_ERROR:st,Z_BUF_ERROR:nt,Z_DEFAULT_COMPRESSION:rt,Z_FILTERED:it,Z_HUFFMAN_ONLY:_t,Z_RLE:lt,Z_FIXED:ht,Z_DEFAULT_STRATEGY:ot,Z_UNKNOWN:dt,Z_DEFLATED:ut}=j,ft=258,ct=262,pt=42,gt=113,wt=666,mt=(t,e)=>(t.msg=P[e],e),bt=t=>2*t-(t>4?9:0),yt=t=>{let e=t.length;for(;--e>=0;)t[e]=0},vt=t=>{let e,a,s,n=t.w_size;e=t.hash_size,s=e;do{a=t.head[--s],t.head[s]=a>=n?a-n:0}while(--e);e=n,s=e;do{a=t.prev[--s],t.prev[s]=a>=n?a-n:0}while(--e)};let zt=(t,e,a)=>(e<<t.hash_shift^a)&t.hash_mask;const kt=t=>{const e=t.state;let a=e.pending;a>t.avail_out&&(a=t.avail_out),0!==a&&(t.output.set(e.pending_buf.subarray(e.pending_out,e.pending_out+a),t.next_out),t.next_out+=a,e.pending_out+=a,t.total_out+=a,t.avail_out-=a,e.pending-=a,0===e.pending&&(e.pending_out=0))},xt=(t,e)=>{G(t,t.block_start>=0?t.block_start:-1,t.strstart-t.block_start,e),t.block_start=t.strstart,kt(t.strm)},At=(t,e)=>{t.pending_buf[t.pending++]=e},Et=(t,e)=>{t.pending_buf[t.pending++]=e>>>8&255,t.pending_buf[t.pending++]=255&e},Zt=(t,e,a,s)=>{let n=t.avail_in;return n>s&&(n=s),0===n?0:(t.avail_in-=n,e.set(t.input.subarray(t.next_in,t.next_in+n),a),1===t.state.wrap?t.adler=B(t.adler,e,n,a):2===t.state.wrap&&(t.adler=M(t.adler,e,n,a)),t.next_in+=n,t.total_in+=n,n)},Ut=(t,e)=>{let a,s,n=t.max_chain_length,r=t.strstart,i=t.prev_length,_=t.nice_match;const l=t.strstart>t.w_size-ct?t.strstart-(t.w_size-ct):0,h=t.window,o=t.w_mask,d=t.prev,u=t.strstart+ft;let f=h[r+i-1],c=h[r+i];t.prev_length>=t.good_match&&(n>>=2),_>t.lookahead&&(_=t.lookahead);do{if(a=e,h[a+i]===c&&h[a+i-1]===f&&h[a]===h[r]&&h[++a]===h[r+1]){r+=2,a++;do{}while(h[++r]===h[++a]&&h[++r]===h[++a]&&h[++r]===h[++a]&&h[++r]===h[++a]&&h[++r]===h[++a]&&h[++r]===h[++a]&&h[++r]===h[++a]&&h[++r]===h[++a]&&r<u);if(s=ft-(u-r),r=u-ft,s>i){if(t.match_start=e,i=s,s>=_)break;f=h[r+i-1],c=h[r+i]}}}while((e=d[e&o])>l&&0!=--n);return i<=t.lookahead?i:t.lookahead},Rt=t=>{const e=t.w_size;let a,s,n;do{if(s=t.window_size-t.lookahead-t.strstart,t.strstart>=e+(e-ct)&&(t.window.set(t.window.subarray(e,e+e-s),0),t.match_start-=e,t.strstart-=e,t.block_start-=e,t.insert>t.strstart&&(t.insert=t.strstart),vt(t),s+=e),0===t.strm.avail_in)break;if(a=Zt(t.strm,t.window,t.strstart+t.lookahead,s),t.lookahead+=a,t.lookahead+t.insert>=3)for(n=t.strstart-t.insert,t.ins_h=t.window[n],t.ins_h=zt(t,t.ins_h,t.window[n+1]);t.insert&&(t.ins_h=zt(t,t.ins_h,t.window[n+3-1]),t.prev[n&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=n,n++,t.insert--,!(t.lookahead+t.insert<3)););}while(t.lookahead<ct&&0!==t.strm.avail_in)},St=(t,e)=>{let a,s,n,r=t.pending_buf_size-5>t.w_size?t.w_size:t.pending_buf_size-5,i=0,_=t.strm.avail_in;do{if(a=65535,n=t.bi_valid+42>>3,t.strm.avail_out<n)break;if(n=t.strm.avail_out-n,s=t.strstart-t.block_start,a>s+t.strm.avail_in&&(a=s+t.strm.avail_in),a>n&&(a=n),a<r&&(0===a&&e!==V||e===q||a!==s+t.strm.avail_in))break;i=e===V&&a===s+t.strm.avail_in?1:0,Y(t,0,0,i),t.pending_buf[t.pending-4]=a,t.pending_buf[t.pending-3]=a>>8,t.pending_buf[t.pending-2]=~a,t.pending_buf[t.pending-1]=~a>>8,kt(t.strm),s&&(s>a&&(s=a),t.strm.output.set(t.window.subarray(t.block_start,t.block_start+s),t.strm.next_out),t.strm.next_out+=s,t.strm.avail_out-=s,t.strm.total_out+=s,t.block_start+=s,a-=s),a&&(Zt(t.strm,t.strm.output,t.strm.next_out,a),t.strm.next_out+=a,t.strm.avail_out-=a,t.strm.total_out+=a)}while(0===i);return _-=t.strm.avail_in,_&&(_>=t.w_size?(t.matches=2,t.window.set(t.strm.input.subarray(t.strm.next_in-t.w_size,t.strm.next_in),0),t.strstart=t.w_size,t.insert=t.strstart):(t.window_size-t.strstart<=_&&(t.strstart-=t.w_size,t.window.set(t.window.subarray(t.w_size,t.w_size+t.strstart),0),t.matches<2&&t.matches++,t.insert>t.strstart&&(t.insert=t.strstart)),t.window.set(t.strm.input.subarray(t.strm.next_in-_,t.strm.next_in),t.strstart),t.strstart+=_,t.insert+=_>t.w_size-t.insert?t.w_size-t.insert:_),t.block_start=t.strstart),t.high_water<t.strstart&&(t.high_water=t.strstart),i?4:e!==q&&e!==V&&0===t.strm.avail_in&&t.strstart===t.block_start?2:(n=t.window_size-t.strstart,t.strm.avail_in>n&&t.block_start>=t.w_size&&(t.block_start-=t.w_size,t.strstart-=t.w_size,t.window.set(t.window.subarray(t.w_size,t.w_size+t.strstart),0),t.matches<2&&t.matches++,n+=t.w_size,t.insert>t.strstart&&(t.insert=t.strstart)),n>t.strm.avail_in&&(n=t.strm.avail_in),n&&(Zt(t.strm,t.window,t.strstart,n),t.strstart+=n,t.insert+=n>t.w_size-t.insert?t.w_size-t.insert:n),t.high_water<t.strstart&&(t.high_water=t.strstart),n=t.bi_valid+42>>3,n=t.pending_buf_size-n>65535?65535:t.pending_buf_size-n,r=n>t.w_size?t.w_size:n,s=t.strstart-t.block_start,(s>=r||(s||e===V)&&e!==q&&0===t.strm.avail_in&&s<=n)&&(a=s>n?n:s,i=e===V&&0===t.strm.avail_in&&a===s?1:0,Y(t,t.block_start,a,i),t.block_start+=a,kt(t.strm)),i?3:1)},Tt=(t,e)=>{let a,s;for(;;){if(t.lookahead<ct){if(Rt(t),t.lookahead<ct&&e===q)return 1;if(0===t.lookahead)break}if(a=0,t.lookahead>=3&&(t.ins_h=zt(t,t.ins_h,t.window[t.strstart+3-1]),a=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart),0!==a&&t.strstart-a<=t.w_size-ct&&(t.match_length=Ut(t,a)),t.match_length>=3)if(s=X(t,t.strstart-t.match_start,t.match_length-3),t.lookahead-=t.match_length,t.match_length<=t.max_lazy_match&&t.lookahead>=3){t.match_length--;do{t.strstart++,t.ins_h=zt(t,t.ins_h,t.window[t.strstart+3-1]),a=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart}while(0!=--t.match_length);t.strstart++}else t.strstart+=t.match_length,t.match_length=0,t.ins_h=t.window[t.strstart],t.ins_h=zt(t,t.ins_h,t.window[t.strstart+1]);else s=X(t,0,t.window[t.strstart]),t.lookahead--,t.strstart++;if(s&&(xt(t,!1),0===t.strm.avail_out))return 1}return t.insert=t.strstart<2?t.strstart:2,e===V?(xt(t,!0),0===t.strm.avail_out?3:4):t.sym_next&&(xt(t,!1),0===t.strm.avail_out)?1:2},Lt=(t,e)=>{let a,s,n;for(;;){if(t.lookahead<ct){if(Rt(t),t.lookahead<ct&&e===q)return 1;if(0===t.lookahead)break}if(a=0,t.lookahead>=3&&(t.ins_h=zt(t,t.ins_h,t.window[t.strstart+3-1]),a=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart),t.prev_length=t.match_length,t.prev_match=t.match_start,t.match_length=2,0!==a&&t.prev_length<t.max_lazy_match&&t.strstart-a<=t.w_size-ct&&(t.match_length=Ut(t,a),t.match_length<=5&&(t.strategy===it||3===t.match_length&&t.strstart-t.match_start>4096)&&(t.match_length=2)),t.prev_length>=3&&t.match_length<=t.prev_length){n=t.strstart+t.lookahead-3,s=X(t,t.strstart-1-t.prev_match,t.prev_length-3),t.lookahead-=t.prev_length-1,t.prev_length-=2;do{++t.strstart<=n&&(t.ins_h=zt(t,t.ins_h,t.window[t.strstart+3-1]),a=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart)}while(0!=--t.prev_length);if(t.match_available=0,t.match_length=2,t.strstart++,s&&(xt(t,!1),0===t.strm.avail_out))return 1}else if(t.match_available){if(s=X(t,0,t.window[t.strstart-1]),s&&xt(t,!1),t.strstart++,t.lookahead--,0===t.strm.avail_out)return 1}else t.match_available=1,t.strstart++,t.lookahead--}return t.match_available&&(s=X(t,0,t.window[t.strstart-1]),t.match_available=0),t.insert=t.strstart<2?t.strstart:2,e===V?(xt(t,!0),0===t.strm.avail_out?3:4):t.sym_next&&(xt(t,!1),0===t.strm.avail_out)?1:2};function Ft(t,e,a,s,n){this.good_length=t,this.max_lazy=e,this.nice_length=a,this.max_chain=s,this.func=n}const Ot=[new Ft(0,0,0,0,St),new Ft(4,4,8,4,Tt),new Ft(4,5,16,8,Tt),new Ft(4,6,32,32,Tt),new Ft(4,4,16,16,Lt),new Ft(8,16,32,32,Lt),new Ft(8,16,128,128,Lt),new Ft(8,32,128,256,Lt),new Ft(32,128,258,1024,Lt),new Ft(32,258,258,4096,Lt)];function Dt(){this.strm=null,this.status=0,this.pending_buf=null,this.pending_buf_size=0,this.pending_out=0,this.pending=0,this.wrap=0,this.gzhead=null,this.gzindex=0,this.method=ut,this.last_flush=-1,this.w_size=0,this.w_bits=0,this.w_mask=0,this.window=null,this.window_size=0,this.prev=null,this.head=null,this.ins_h=0,this.hash_size=0,this.hash_bits=0,this.hash_mask=0,this.hash_shift=0,this.block_start=0,this.match_length=0,this.prev_match=0,this.match_available=0,this.strstart=0,this.match_start=0,this.lookahead=0,this.prev_length=0,this.max_chain_length=0,this.max_lazy_match=0,this.level=0,this.strategy=0,this.good_match=0,this.nice_match=0,this.dyn_ltree=new Uint16Array(1146),this.dyn_dtree=new Uint16Array(122),this.bl_tree=new Uint16Array(78),yt(this.dyn_ltree),yt(this.dyn_dtree),yt(this.bl_tree),this.l_desc=null,this.d_desc=null,this.bl_desc=null,this.bl_count=new Uint16Array(16),this.heap=new Uint16Array(573),yt(this.heap),this.heap_len=0,this.heap_max=0,this.depth=new Uint16Array(573),yt(this.depth),this.sym_buf=0,this.lit_bufsize=0,this.sym_next=0,this.sym_end=0,this.opt_len=0,this.static_len=0,this.matches=0,this.insert=0,this.bi_buf=0,this.bi_valid=0}const Nt=t=>{if(!t)return 1;const e=t.state;return!e||e.strm!==t||e.status!==pt&&57!==e.status&&69!==e.status&&73!==e.status&&91!==e.status&&103!==e.status&&e.status!==gt&&e.status!==wt?1:0},It=t=>{if(Nt(t))return mt(t,at);t.total_in=t.total_out=0,t.data_type=dt;const e=t.state;return e.pending=0,e.pending_out=0,e.wrap<0&&(e.wrap=-e.wrap),e.status=2===e.wrap?57:e.wrap?pt:gt,t.adler=2===e.wrap?0:1,e.last_flush=-2,K(e),tt},Ct=t=>{const e=It(t);var a;return e===tt&&((a=t.state).window_size=2*a.w_size,yt(a.head),a.max_lazy_match=Ot[a.level].max_lazy,a.good_match=Ot[a.level].good_length,a.nice_match=Ot[a.level].nice_length,a.max_chain_length=Ot[a.level].max_chain,a.strstart=0,a.block_start=0,a.lookahead=0,a.insert=0,a.match_length=a.prev_length=2,a.match_available=0,a.ins_h=0),e},Bt=(t,e,a,s,n,r)=>{if(!t)return at;let i=1;if(e===rt&&(e=6),s<0?(i=0,s=-s):s>15&&(i=2,s-=16),n<1||n>9||a!==ut||s<8||s>15||e<0||e>9||r<0||r>ht||8===s&&1!==i)return mt(t,at);8===s&&(s=9);const _=new Dt;return t.state=_,_.strm=t,_.status=pt,_.wrap=i,_.gzhead=null,_.w_bits=s,_.w_size=1<<_.w_bits,_.w_mask=_.w_size-1,_.hash_bits=n+7,_.hash_size=1<<_.hash_bits,_.hash_mask=_.hash_size-1,_.hash_shift=~~((_.hash_bits+3-1)/3),_.window=new Uint8Array(2*_.w_size),_.head=new Uint16Array(_.hash_size),_.prev=new Uint16Array(_.w_size),_.lit_bufsize=1<<n+6,_.pending_buf_size=4*_.lit_bufsize,_.pending_buf=new Uint8Array(_.pending_buf_size),_.sym_buf=_.lit_bufsize,_.sym_end=3*(_.lit_bufsize-1),_.level=e,_.strategy=r,_.method=a,Ct(t)};var Ht={deflateInit:(t,e)=>Bt(t,e,ut,15,8,ot),deflateInit2:Bt,deflateReset:Ct,deflateResetKeep:It,deflateSetHeader:(t,e)=>Nt(t)||2!==t.state.wrap?at:(t.state.gzhead=e,tt),deflate:(t,e)=>{if(Nt(t)||e>$||e<0)return t?mt(t,at):at;const a=t.state;if(!t.output||0!==t.avail_in&&!t.input||a.status===wt&&e!==V)return mt(t,0===t.avail_out?nt:at);const s=a.last_flush;if(a.last_flush=e,0!==a.pending){if(kt(t),0===t.avail_out)return a.last_flush=-1,tt}else if(0===t.avail_in&&bt(e)<=bt(s)&&e!==V)return mt(t,nt);if(a.status===wt&&0!==t.avail_in)return mt(t,nt);if(a.status===pt&&0===a.wrap&&(a.status=gt),a.status===pt){let e=ut+(a.w_bits-8<<4)<<8,s=-1;if(s=a.strategy>=_t||a.level<2?0:a.level<6?1:6===a.level?2:3,e|=s<<6,0!==a.strstart&&(e|=32),e+=31-e%31,Et(a,e),0!==a.strstart&&(Et(a,t.adler>>>16),Et(a,65535&t.adler)),t.adler=1,a.status=gt,kt(t),0!==a.pending)return a.last_flush=-1,tt}if(57===a.status)if(t.adler=0,At(a,31),At(a,139),At(a,8),a.gzhead)At(a,(a.gzhead.text?1:0)+(a.gzhead.hcrc?2:0)+(a.gzhead.extra?4:0)+(a.gzhead.name?8:0)+(a.gzhead.comment?16:0)),At(a,255&a.gzhead.time),At(a,a.gzhead.time>>8&255),At(a,a.gzhead.time>>16&255),At(a,a.gzhead.time>>24&255),At(a,9===a.level?2:a.strategy>=_t||a.level<2?4:0),At(a,255&a.gzhead.os),a.gzhead.extra&&a.gzhead.extra.length&&(At(a,255&a.gzhead.extra.length),At(a,a.gzhead.extra.length>>8&255)),a.gzhead.hcrc&&(t.adler=M(t.adler,a.pending_buf,a.pending,0)),a.gzindex=0,a.status=69;else if(At(a,0),At(a,0),At(a,0),At(a,0),At(a,0),At(a,9===a.level?2:a.strategy>=_t||a.level<2?4:0),At(a,3),a.status=gt,kt(t),0!==a.pending)return a.last_flush=-1,tt;if(69===a.status){if(a.gzhead.extra){let e=a.pending,s=(65535&a.gzhead.extra.length)-a.gzindex;for(;a.pending+s>a.pending_buf_size;){let n=a.pending_buf_size-a.pending;if(a.pending_buf.set(a.gzhead.extra.subarray(a.gzindex,a.gzindex+n),a.pending),a.pending=a.pending_buf_size,a.gzhead.hcrc&&a.pending>e&&(t.adler=M(t.adler,a.pending_buf,a.pending-e,e)),a.gzindex+=n,kt(t),0!==a.pending)return a.last_flush=-1,tt;e=0,s-=n}let n=new Uint8Array(a.gzhead.extra);a.pending_buf.set(n.subarray(a.gzindex,a.gzindex+s),a.pending),a.pending+=s,a.gzhead.hcrc&&a.pending>e&&(t.adler=M(t.adler,a.pending_buf,a.pending-e,e)),a.gzindex=0}a.status=73}if(73===a.status){if(a.gzhead.name){let e,s=a.pending;do{if(a.pending===a.pending_buf_size){if(a.gzhead.hcrc&&a.pending>s&&(t.adler=M(t.adler,a.pending_buf,a.pending-s,s)),kt(t),0!==a.pending)return a.last_flush=-1,tt;s=0}e=a.gzindex<a.gzhead.name.length?255&a.gzhead.name.charCodeAt(a.gzindex++):0,At(a,e)}while(0!==e);a.gzhead.hcrc&&a.pending>s&&(t.adler=M(t.adler,a.pending_buf,a.pending-s,s)),a.gzindex=0}a.status=91}if(91===a.status){if(a.gzhead.comment){let e,s=a.pending;do{if(a.pending===a.pending_buf_size){if(a.gzhead.hcrc&&a.pending>s&&(t.adler=M(t.adler,a.pending_buf,a.pending-s,s)),kt(t),0!==a.pending)return a.last_flush=-1,tt;s=0}e=a.gzindex<a.gzhead.comment.length?255&a.gzhead.comment.charCodeAt(a.gzindex++):0,At(a,e)}while(0!==e);a.gzhead.hcrc&&a.pending>s&&(t.adler=M(t.adler,a.pending_buf,a.pending-s,s))}a.status=103}if(103===a.status){if(a.gzhead.hcrc){if(a.pending+2>a.pending_buf_size&&(kt(t),0!==a.pending))return a.last_flush=-1,tt;At(a,255&t.adler),At(a,t.adler>>8&255),t.adler=0}if(a.status=gt,kt(t),0!==a.pending)return a.last_flush=-1,tt}if(0!==t.avail_in||0!==a.lookahead||e!==q&&a.status!==wt){let s=0===a.level?St(a,e):a.strategy===_t?((t,e)=>{let a;for(;;){if(0===t.lookahead&&(Rt(t),0===t.lookahead)){if(e===q)return 1;break}if(t.match_length=0,a=X(t,0,t.window[t.strstart]),t.lookahead--,t.strstart++,a&&(xt(t,!1),0===t.strm.avail_out))return 1}return t.insert=0,e===V?(xt(t,!0),0===t.strm.avail_out?3:4):t.sym_next&&(xt(t,!1),0===t.strm.avail_out)?1:2})(a,e):a.strategy===lt?((t,e)=>{let a,s,n,r;const i=t.window;for(;;){if(t.lookahead<=ft){if(Rt(t),t.lookahead<=ft&&e===q)return 1;if(0===t.lookahead)break}if(t.match_length=0,t.lookahead>=3&&t.strstart>0&&(n=t.strstart-1,s=i[n],s===i[++n]&&s===i[++n]&&s===i[++n])){r=t.strstart+ft;do{}while(s===i[++n]&&s===i[++n]&&s===i[++n]&&s===i[++n]&&s===i[++n]&&s===i[++n]&&s===i[++n]&&s===i[++n]&&n<r);t.match_length=ft-(r-n),t.match_length>t.lookahead&&(t.match_length=t.lookahead)}if(t.match_length>=3?(a=X(t,1,t.match_length-3),t.lookahead-=t.match_length,t.strstart+=t.match_length,t.match_length=0):(a=X(t,0,t.window[t.strstart]),t.lookahead--,t.strstart++),a&&(xt(t,!1),0===t.strm.avail_out))return 1}return t.insert=0,e===V?(xt(t,!0),0===t.strm.avail_out?3:4):t.sym_next&&(xt(t,!1),0===t.strm.avail_out)?1:2})(a,e):Ot[a.level].func(a,e);if(3!==s&&4!==s||(a.status=wt),1===s||3===s)return 0===t.avail_out&&(a.last_flush=-1),tt;if(2===s&&(e===J?W(a):e!==$&&(Y(a,0,0,!1),e===Q&&(yt(a.head),0===a.lookahead&&(a.strstart=0,a.block_start=0,a.insert=0))),kt(t),0===t.avail_out))return a.last_flush=-1,tt}return e!==V?tt:a.wrap<=0?et:(2===a.wrap?(At(a,255&t.adler),At(a,t.adler>>8&255),At(a,t.adler>>16&255),At(a,t.adler>>24&255),At(a,255&t.total_in),At(a,t.total_in>>8&255),At(a,t.total_in>>16&255),At(a,t.total_in>>24&255)):(Et(a,t.adler>>>16),Et(a,65535&t.adler)),kt(t),a.wrap>0&&(a.wrap=-a.wrap),0!==a.pending?tt:et)},deflateEnd:t=>{if(Nt(t))return at;const e=t.state.status;return t.state=null,e===gt?mt(t,st):tt},deflateSetDictionary:(t,e)=>{let a=e.length;if(Nt(t))return at;const s=t.state,n=s.wrap;if(2===n||1===n&&s.status!==pt||s.lookahead)return at;if(1===n&&(t.adler=B(t.adler,e,a,0)),s.wrap=0,a>=s.w_size){0===n&&(yt(s.head),s.strstart=0,s.block_start=0,s.insert=0);let t=new Uint8Array(s.w_size);t.set(e.subarray(a-s.w_size,a),0),e=t,a=s.w_size}const r=t.avail_in,i=t.next_in,_=t.input;for(t.avail_in=a,t.next_in=0,t.input=e,Rt(s);s.lookahead>=3;){let t=s.strstart,e=s.lookahead-2;do{s.ins_h=zt(s,s.ins_h,s.window[t+3-1]),s.prev[t&s.w_mask]=s.head[s.ins_h],s.head[s.ins_h]=t,t++}while(--e);s.strstart=t,s.lookahead=2,Rt(s)}return s.strstart+=s.lookahead,s.block_start=s.strstart,s.insert=s.lookahead,s.lookahead=0,s.match_length=s.prev_length=2,s.match_available=0,t.next_in=i,t.input=_,t.avail_in=r,s.wrap=n,tt},deflateInfo:"pako deflate (from Nodeca project)"};const Mt=(t,e)=>Object.prototype.hasOwnProperty.call(t,e);var Pt=function(t){const e=Array.prototype.slice.call(arguments,1);for(;e.length;){const a=e.shift();if(a){if("object"!=typeof a)throw new TypeError(a+"must be non-object");for(const e in a)Mt(a,e)&&(t[e]=a[e])}}return t},jt=t=>{let e=0;for(let a=0,s=t.length;a<s;a++)e+=t[a].length;const a=new Uint8Array(e);for(let e=0,s=0,n=t.length;e<n;e++){let n=t[e];a.set(n,s),s+=n.length}return a};let Kt=!0;try{String.fromCharCode.apply(null,new Uint8Array(1))}catch(t){Kt=!1}const Yt=new Uint8Array(256);for(let t=0;t<256;t++)Yt[t]=t>=252?6:t>=248?5:t>=240?4:t>=224?3:t>=192?2:1;Yt[254]=Yt[254]=1;var Gt=t=>{if("function"==typeof TextEncoder&&TextEncoder.prototype.encode)return(new TextEncoder).encode(t);let e,a,s,n,r,i=t.length,_=0;for(n=0;n<i;n++)a=t.charCodeAt(n),55296==(64512&a)&&n+1<i&&(s=t.charCodeAt(n+1),56320==(64512&s)&&(a=65536+(a-55296<<10)+(s-56320),n++)),_+=a<128?1:a<2048?2:a<65536?3:4;for(e=new Uint8Array(_),r=0,n=0;r<_;n++)a=t.charCodeAt(n),55296==(64512&a)&&n+1<i&&(s=t.charCodeAt(n+1),56320==(64512&s)&&(a=65536+(a-55296<<10)+(s-56320),n++)),a<128?e[r++]=a:a<2048?(e[r++]=192|a>>>6,e[r++]=128|63&a):a<65536?(e[r++]=224|a>>>12,e[r++]=128|a>>>6&63,e[r++]=128|63&a):(e[r++]=240|a>>>18,e[r++]=128|a>>>12&63,e[r++]=128|a>>>6&63,e[r++]=128|63&a);return e};var Xt=function(){this.input=null,this.next_in=0,this.avail_in=0,this.total_in=0,this.output=null,this.next_out=0,this.avail_out=0,this.total_out=0,this.msg="",this.state=null,this.data_type=2,this.adler=0};const Wt=Object.prototype.toString,{Z_NO_FLUSH:qt,Z_SYNC_FLUSH:Jt,Z_FULL_FLUSH:Qt,Z_FINISH:Vt,Z_OK:$t,Z_STREAM_END:te,Z_DEFAULT_COMPRESSION:ee,Z_DEFAULT_STRATEGY:ae,Z_DEFLATED:se}=j;function ne(t){this.options=Pt({level:ee,method:se,chunkSize:16384,windowBits:15,memLevel:8,strategy:ae},t||{});let e=this.options;e.raw&&e.windowBits>0?e.windowBits=-e.windowBits:e.gzip&&e.windowBits>0&&e.windowBits<16&&(e.windowBits+=16),this.err=0,this.msg="",this.ended=!1,this.chunks=[],this.strm=new Xt,this.strm.avail_out=0;let a=Ht.deflateInit2(this.strm,e.level,e.method,e.windowBits,e.memLevel,e.strategy);if(a!==$t)throw new Error(P[a]);if(e.header&&Ht.deflateSetHeader(this.strm,e.header),e.dictionary){let t;if(t="string"==typeof e.dictionary?Gt(e.dictionary):"[object ArrayBuffer]"===Wt.call(e.dictionary)?new Uint8Array(e.dictionary):e.dictionary,a=Ht.deflateSetDictionary(this.strm,t),a!==$t)throw new Error(P[a]);this._dict_set=!0}}function re(t,e){const a=new ne(e);if(a.push(t,!0),a.err)throw a.msg||P[a.err];return a.result}ne.prototype.push=function(t,e){const a=this.strm,s=this.options.chunkSize;let n,r;if(this.ended)return!1;for(r=e===~~e?e:!0===e?Vt:qt,"string"==typeof t?a.input=Gt(t):"[object ArrayBuffer]"===Wt.call(t)?a.input=new Uint8Array(t):a.input=t,a.next_in=0,a.avail_in=a.input.length;;)if(0===a.avail_out&&(a.output=new Uint8Array(s),a.next_out=0,a.avail_out=s),(r===Jt||r===Qt)&&a.avail_out<=6)this.onData(a.output.subarray(0,a.next_out)),a.avail_out=0;else{if(n=Ht.deflate(a,r),n===te)return a.next_out>0&&this.onData(a.output.subarray(0,a.next_out)),n=Ht.deflateEnd(this.strm),this.onEnd(n),this.ended=!0,n===$t;if(0!==a.avail_out){if(r>0&&a.next_out>0)this.onData(a.output.subarray(0,a.next_out)),a.avail_out=0;else if(0===a.avail_in)break}else this.onData(a.output)}return!0},ne.prototype.onData=function(t){this.chunks.push(t)},ne.prototype.onEnd=function(t){t===$t&&(this.result=jt(this.chunks)),this.chunks=[],this.err=t,this.msg=this.strm.msg};var ie=ne,_e=re,le=function(t,e){return(e=e||{}).raw=!0,re(t,e)},he=function(t,e){return(e=e||{}).gzip=!0,re(t,e)},oe=j,de={Deflate:ie,deflate:_e,deflateRaw:le,gzip:he,constants:oe};t.Deflate=ie,t.constants=oe,t.default=de,t.deflate=_e,t.deflateRaw=le,t.gzip=he,Object.defineProperty(t,"__esModule",{value:!0})})); 
+  </script>  
+  
+  <script>
+    //var origin = window.location.origin;
+    //var origin = "http://192.168.1.68";
+    //var origin = "http://192.168.4.1";
+    var origin = "http://127.0.0.1";
+    var repl_password = "pass";
+    
+    var editor;
+    var term;
+    var ws;
+    var connected = false;
+    
+    var paste_mode_detected = 0;
+    var arrow_detected = 0;
+    
+    var binary_state = 0;
+    var put_file_name = null;
+    var put_file_data = null;
+    var get_file_name = null;
+    var get_file_data = null;
+    var run_uploaded_code = false;
+    
+    var path = "/";
+    
+    var blocklyArea;
+    var blocklyDiv;
+    var demoWorkspace;
+    
+    var code_window_open = false;
+    
+    var vibro_time = 100;
+    
+    
+    // Canvas for oled emulator
+    var oled_canvas;
+    var img = [];
+    img.length = 128*64*4;
+    var oled_ws_opened = 0;
+    var oled_sim_opened = 0;
+    var oled_buffer;
+    var oled_timer;
+    
+    
+    var Joy1;
+    var Joy2;
+    var show_joystick = false;
+    var joystick_ws_opened = 0;
+    var joy_X = 0;
+    var joy_Y = 0;
+    var joy_pressed = 0;
+    
+    var joy2_X = 0;
+    var joy2_Y = 0;
+    var joy2_pressed = 0;
+    
+    var custom_blocks_names = [];
+    
+    
+    function sleepFor(sleepDuration){
+        var now = new Date().getTime();
+        while(new Date().getTime() < now + sleepDuration){ 
+            /* Do nothing */ 
+        }
+    }
+    
+    function phone_vibrate() {
+      try {
+        navigator.vibrate(vibro_time);
+      } catch {
+        console.log("Cannot vibrate")
+      }
+    }
+    
+    
+    
+    
+    var onresize = function(e) {
+      // Compute the absolute coordinates and dimensions of blocklyArea.
+      var element = blocklyArea;
+      var x = 0;
+      var y = 0;
+      do {
+        x += element.offsetLeft;
+        y += element.offsetTop;
+        element = element.offsetParent;
+      } while (element);
+      // Position blocklyDiv over blocklyArea.
+      blocklyDiv.style.left = x + 'px';
+      blocklyDiv.style.top = y + 44 + 'px';
+      blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+      blocklyDiv.style.height = blocklyArea.offsetHeight - 44 + 'px';
+      //console.log(blocklyDiv.style.left);
+      //console.log(blocklyDiv.style.top);
+      Blockly.svgResize(demoWorkspace);
+    };
+        
+    
+    function runCode() {
+        ws.send('\x03');
+        sleepFor(250);
+        ws.send('\x03');
+        sleepFor(250);
+        Blockly.Python.INFINITE_LOOP_TRAP = null;
+        
+        var save_code = editor.getValue().replace(/\r\n|\r|\n/g, "\r");
+        
+        if (document.getElementById("autostart").checked)
+        {
+            save_code = "#autostart*\r" + save_code;
+        }
+        
+        put_file_name = "idecode";
+        put_file_data = new Uint8Array(stringToArray(save_code));
+        //console.log(escape(put_file_name) + ' - ' + put_file_data.length + ' bytes');
+        run_uploaded_code = true;
+        put_file();
+    }
+    
+        
+    function getWidth() {
+      return Math.max(
+        document.body.scrollWidth,
+        document.documentElement.scrollWidth,
+        document.body.offsetWidth,
+        document.documentElement.offsetWidth,
+        document.documentElement.clientWidth
+      );
+    }
+
+    function getHeight() {
+      return Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.offsetHeight,
+        document.documentElement.clientHeight
+      );
+    }
+    
+
+    function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    }
+    
+    function delete_non_ascii(in_string) {
+        sdiak="ÁÂÄĄáâäąČčĆćÇçĈĉĎĐďđÉÉĚËĒĖĘéěëēėęĜĝĞğĠġĢģĤĥĦħÍÎíîĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĿŀŁłĹĽĺľŇŃŅŊŋņňńŉÓÖÔŐØŌōóöőôøŘřŔŕŖŗŠšŚśŜŝŞşŢţŤťŦŧŨũŪūŬŭŮůŰűÚÜúüűŲųŴŵÝYŶŷýyŽžŹźŻżß;@*%!+-$&?~";
+        bdiak="AAAAaaaaCcCcCcCcDDddEEEEEEEeeeeeeGgGgGgGgHhHhIIiiIiIiIiIiIiJjKkkLlLlLlLlLLllNNNNnnnnnOOOOOOooooooRrRrRrSsSsSsSsTtTtTtUuUuUuUuUuUUuuuUuWwYYYyyyZzZzZzs___________"
+
+        tx=""; txt=in_string;
+
+        for(p=0;p<txt.length;p++)
+        {
+            if (sdiak.indexOf(txt.charAt(p))!=-1)
+            {
+                tx+=bdiak.charAt(sdiak.indexOf(txt.charAt(p)));
+            }	
+            else 
+            {
+                tx+=txt.charAt(p);
+            }
+        }
+        
+      return tx.replace(/[^A-Za-z 0-9 \.,\?""!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]`~]*/g, '');
+    }
+    
+    function nahraditNepovoleneZnaky(retězec) {
+        // Definice regulárního výrazu, který odpovídá všem znakům mimo povolené množiny
+        var povoleneZnaky = /[^\w\-._~!*();:@&=+$,\/?%#[\]]/g;
+
+        // Nahrazení všech znaků, které neodpovídají povoleným, znakem podtržítko
+        return retězec.replace(povoleneZnaky, '_');
+    }
+
+    function replaceAll(str, find, replace) {
+        return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+    }
+    
+    
+    
+    
+    
+    
+    function calculate_size(win) {
+        var cols = (getWidth() / 6.2) | 0;
+        //var rows = ((getHeight() / 6) / 15) | 0;
+        var rows = (document.getElementById("terminal_div").offsetHeight / 13.5) | 0;
+        return [cols, rows];
+    }
+    
+    
+    (function() {
+        window.onload = function() {
+        
+            // On Web
+            ace.config.set('basePath', '/');
+            ace.config.set('modePath', '/');
+            ace.config.set('themePath', '/');
+            
+            // Local Filesystem
+            //ace.config.set('basePath', '');
+            //ace.config.set('modePath', '');
+            //ace.config.set('themePath', '');
+            
+            editor = ace.edit("editor");
+            ace.require("ace/ext/language_tools");
+            editor.setTheme("ace/theme/chrome");
+            editor.session.setMode("ace/mode/python");
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: false,
+                showInvisibles: true,
+                fixedWidthGutter: true,
+                showPrintMargin: false
+            }); 
+            
+            Split(['#editor_div', '#terminal_div'], {
+                direction: 'vertical',
+                sizes: [85, 15],
+                gutterSize: 5,
+                cursor: 'row-resize',
+                onDragEnd: function(sizes) {
+                    //console.log(sizes);
+                    var size = calculate_size(self);
+                    term.resize(size[0], size[1]);
+                    editor.resize();
+                    onresize();
+                },
+            }) 
+
+
+            var size = calculate_size(self);
+            term = new Terminal({
+                cols: size[0],
+                rows: size[1],
+                useStyle: true,
+                screenKeys: true,
+                cursorBlink: false
+            });
+        
+          term.open(document.getElementById("term"));
+          connect(origin.replace("http","ws") + ":8266");
+          
+          
+          Joy1 = new JoyStick('joy1Div', {}, function(stickData) {
+            joy_X = stickData.x;
+            joy_Y = stickData.y;
+            joy_pressed = stickData.pressed;
+            //console.log(stickData);
+          });
+          
+          Joy2 = new JoyStick('joy2Div', {}, function(stickData) {
+            joy2_X = stickData.x;
+            joy2_Y = stickData.y;
+            joy2_pressed = stickData.pressed;
+            //console.log(stickData);
+          });
+          
+          
+          Blockly.HSV_SATURATION = 0.70;
+          Blockly.HSV_VALUE = 0.80;
+          
+          blocklyArea = document.getElementById('editor_div');
+          blocklyDiv = document.getElementById('blocklyDiv');
+          demoWorkspace = Blockly.inject('blocklyDiv',
+            {toolbox: document.getElementById('toolbox'),
+             zoom:
+                 {controls: true,
+                  wheel: true,
+                  startScale: 1.0,
+                  maxScale: 3,
+                  minScale: 0.3,
+                  scaleSpeed: 1.2,
+                  pinch: true},
+             trashcan: true,
+             media: './'});
+          window.addEventListener('resize', onresize, false);
+          onresize();
+          Blockly.svgResize(demoWorkspace);
+          
+          function block_changed(event) {
+              //console.log(event.type);
+              Blockly.Python.INFINITE_LOOP_TRAP = null;
+              var str_code = Blockly.Python.workspaceToCode(demoWorkspace);
+              editor.setValue(str_code,1);
+          }
+          demoWorkspace.addChangeListener(block_changed);
+          
+          demoWorkspace.registerButtonCallback('open_image_editor', function(button) {
+            window.open('img_editor.html','Editor obrázků','left=300,top=140,width=260,height=340,popup');
+          });
+          
+          
+          // Funkce pro automatické načítání nových bloků pokud jsou v localstorage
+          if (localStorage.getItem('new_blocks_js') !== null && localStorage.getItem('new_blocks_xml') !== null) {
+              try {
+                // Načte javascript pro nové bloky
+                eval(localStorage.getItem('new_blocks_js'));
+                
+                // Přidá bloky do toolboxu
+                var workspace = Blockly.getMainWorkspace();
+                var xmlElement = document.getElementById('toolbox');
+                var original_toolbox_content = xmlElement.innerHTML; 
+                workspace.updateToolbox('<xml id="toolbox" style="display: none">' + original_toolbox_content + localStorage.getItem('new_blocks_xml') + '</xml>');
+              } catch (error) {
+                console.log("Nepodarilo se nacist nove bloky")
+              } 
+          }
+          
+          
+        };
+        window.addEventListener('resize', function() {
+            var size = calculate_size(self);
+            term.resize(size[0], size[1]);
+        });
+    }).call(this);
+    
+
+    function update_file_status(s) {
+        term.write(s);
+    }
+    
+    
+    function prepare_for_connect() {
+        connect(origin.replace("http","ws") + ":8266");
+    }
+    
+
+    function connect(url) {
+        ws = new WebSocket(url);
+        ws.binaryType = 'arraybuffer';
+        ws.onopen = function() {
+            term.removeAllListeners('data');
+            term.on('data', function(data) {
+                // Pasted data from clipboard will likely contain
+                // LF as EOL chars.
+                data = data.replace(/\n/g, "\r");
+                ws.send(data);
+            });
+            
+            term.write('\x1b[32mWelcome to esp32 MicroPython!\x1b[m\r\n');
+            
+            ws.onmessage = function(event) {
+                if (event.data instanceof ArrayBuffer) {
+                    var data = new Uint8Array(event.data);
+                    switch (binary_state) {
+                        case 11:
+                            // first response for put
+                            if (decode_resp(data) == 0) {
+                                // send file data in chunks
+                                for (var offset = 0; offset < put_file_data.length; offset += 512) {
+                                    ws.send(put_file_data.slice(offset, offset + 512));
+                                }
+                                binary_state = 12;
+                            }
+                            break;
+                        case 12:
+                            // final response for put
+                            if (decode_resp(data) == 0) {
+                                
+                                document.getElementById("save_dialog").style.display = "none";
+                                if (run_uploaded_code == true)
+                                {
+                                    update_file_status(put_file_data.length + ' bytes OK\r\n');
+                                    sleepFor(500);
+                                    ws.send('\rrun_code()\r');
+                                    run_uploaded_code = false;
+                                }
+                                else
+                                {
+                                    update_file_status('\r\nSaved ' + put_file_name + ', ' + put_file_data.length + ' bytes OK\r\n');
+                                    sleepFor(500);
+                                }
+                                
+                            } else {
+                                update_file_status('Failed saving ' + put_file_name + '\r\n');
+                                document.getElementById("save_dialog").style.display = "none";
+                            }
+                            binary_state = 0;
+                            break;
+                        case 21:
+                            // first response for get
+                            if (decode_resp(data) == 0) {
+                                binary_state = 22;
+                                var rec = new Uint8Array(1);
+                                rec[0] = 0;
+                                ws.send(rec);
+                            }
+                            break;
+                        case 22: {
+                            // file data
+                            var sz = data[0] | (data[1] << 8);
+                            if (data.length == 2 + sz) {
+                                // we assume that the data comes in single chunks
+                                if (sz == 0) {
+                                    // end of file
+                                    binary_state = 23;
+                                } else {
+                                    // accumulate incoming data to get_file_data
+                                    var new_buf = new Uint8Array(get_file_data.length + sz);
+                                    new_buf.set(get_file_data);
+                                    new_buf.set(data.slice(2), get_file_data.length);
+                                    get_file_data = new_buf;
+                                    update_file_status('Getting ' + get_file_name + ', ' + get_file_data.length + ' bytes\r\n');
+                                    var rec = new Uint8Array(1);
+                                    rec[0] = 0;
+                                    ws.send(rec);
+                                }
+                            } else {
+                                binary_state = 0;
+                            }
+                            break;
+                        }
+                        case 23:
+                            // final response
+                            if (decode_resp(data) == 0) {
+                                update_file_status('Got ' + get_file_name + ', ' + get_file_data.length + ' bytes');
+                                //console.log(new TextDecoder("utf-8").decode(get_file_data));
+                                var xml_raw_data = new TextDecoder("utf-8").decode(get_file_data)
+                                var xml = Blockly.Xml.textToDom(xml_raw_data);
+                                demoWorkspace.clear();
+                                Blockly.Xml.domToWorkspace(xml, demoWorkspace);
+                                ws.send('\r');
+                                close_load();
+                            } else {
+                                update_file_status('Failed getting ' + get_file_name + '\r\n');
+                            }
+                            binary_state = 0;
+                            break;
+                        case 31:
+                            // first (and last) response for GET_VER
+                            console.log('GET_VER', data);
+                            binary_state = 0;
+                            break;
+                    }
+                }
+                
+                try 
+                {
+                    if (event.data.includes("\r") == true)
+                    {
+                        paste_mode_detected += 1;
+                        //console.log("nl")
+                    }
+                
+                    if (event.data.includes(">>>") == true)
+                    {
+                        arrow_detected += 1;
+                        //console.log(">>>")
+                    }
+                }
+                catch(err) 
+                {
+                    console.log("socket receive binary data");
+                }
+                                
+                try
+                {
+                    
+                    if (event.data.startsWith("*FL*") == true)
+                    {
+                        if ((event.data.includes("*FL*") == true) && (event.data.includes("#FL#") == true))
+                        {
+                            var list_files = event.data.substring(
+                            event.data.lastIndexOf("*FL*") + 4, 
+                            event.data.lastIndexOf("#FL#")
+                            );
+                            
+                            var data = list_files.trim().split(";")
+                            var select = document.getElementById("load_filename")
+                            select.innerHTML = "";
+
+                            data.forEach(function(name) {
+                                if (name.includes(".xml") == true)
+                                {
+                                    var load_filename_value = replaceAll(replaceAll(replaceAll(name,".GZ",""),".gz",""),".xml","");
+                                    var opt = document.createElement("option");
+                                    opt.value = load_filename_value;
+                                    opt.textContent = load_filename_value;
+                                    select.appendChild(opt);
+                                    
+                                }  
+                            });
+                            
+                            document.getElementById("load_filename").disabled = false;
+                                                   
+                            //console.log(list_files);
+                        }
+                        else
+                        {
+                            console.log("Chybi konec");
+                        }
+   
+                        
+                    }
+                    else if (event.data.startsWith("*wifi*") == true)
+                    {
+                        if ((event.data.includes("*wifi*") == true) && (event.data.includes("#wifi#") == true))
+                        {
+                            var networks = event.data.substring(
+                            event.data.lastIndexOf("*wifi*") + 6, 
+                            event.data.lastIndexOf("#wifi#")
+                            );
+                            
+                            networks = replaceAll(networks, ", ","###")
+                            networks = replaceAll(networks, ": ","***")
+                            networks = replaceAll(networks, "'","")
+
+                            networks = replaceAll(networks, "{","")
+                            networks = replaceAll(networks, "}","")
+                            
+                            var num_ssid = networks.split("###").length
+                            var i_num_ssid
+                            
+                            for (i_num_ssid = 0; i_num_ssid <num_ssid; i_num_ssid++) {
+                                
+                                document.getElementById("ssid" + i_num_ssid).value = networks.split("###")[i_num_ssid].split("***")[0];
+                                document.getElementById("pass" + i_num_ssid).value = networks.split("###")[i_num_ssid].split("***")[1];
+                            }
+                                                       
+                            //var data = list_files.trim().split(";")        
+                            //console.log(networks.split("###").length);
+                        }
+                        else
+                        {
+                            console.log("Chybi konec");
+                        }
+   
+                        
+                    }
+                    else
+                    {
+                        term.write(event.data);
+                    }
+                }
+                catch(err)
+                {
+                    console.log(err)
+                    term.write(event.data);
+                }
+                
+                
+            };
+            ws.send(repl_password + "\n");
+        }; 
+
+        ws.onclose = function() {
+            connected = false;
+            if (term) {
+                term.write('\x1b[31mDisconnected\x1b[m\r\n');
+            }
+            term.off('data');
+            prepare_for_connect();
+        }
+    }
+    
+    
+    function decode_resp(data) {
+        if (data[0] == 'W'.charCodeAt(0) && data[1] == 'B'.charCodeAt(0)) {
+            var code = data[2] | (data[3] << 8);
+            return code;
+        } else {
+            return -1;
+        }
+    }
+
+    function put_file() {
+        var dest_fname = put_file_name;
+        var dest_fsize = put_file_data.length;
+
+        // WEBREPL_FILE = "<2sBBQLH64s"
+        var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
+        rec[0] = 'W'.charCodeAt(0);
+        rec[1] = 'A'.charCodeAt(0);
+        rec[2] = 1; // put
+        rec[3] = 0;
+        rec[4] = 0; rec[5] = 0; rec[6] = 0; rec[7] = 0; rec[8] = 0; rec[9] = 0; rec[10] = 0; rec[11] = 0;
+        rec[12] = dest_fsize & 0xff; rec[13] = (dest_fsize >> 8) & 0xff; rec[14] = (dest_fsize >> 16) & 0xff; rec[15] = (dest_fsize >> 24) & 0xff;
+        rec[16] = dest_fname.length & 0xff; rec[17] = (dest_fname.length >> 8) & 0xff;
+        for (var i = 0; i < 64; ++i) {
+            if (i < dest_fname.length) {
+                rec[18 + i] = dest_fname.charCodeAt(i);
+            } else {
+                rec[18 + i] = 0;
+            }
+        }
+
+        // initiate put
+        binary_state = 11;
+        
+        if (run_uploaded_code == true)
+        {
+            update_file_status('Uploading......');
+        }
+        else
+        {
+            update_file_status('Saving ' + put_file_name + '......');
+        }
+        
+        ws.send(rec);
+        sleepFor(250);
+    }
+
+    function get_file(filename) {
+        //var src_fname = document.getElementById('get_filename').value;
+        var src_fname = filename;
+        
+        // WEBREPL_FILE = "<2sBBQLH64s"
+        var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
+        rec[0] = 'W'.charCodeAt(0);
+        rec[1] = 'A'.charCodeAt(0);
+        rec[2] = 2; // get
+        rec[3] = 0;
+        rec[4] = 0; rec[5] = 0; rec[6] = 0; rec[7] = 0; rec[8] = 0; rec[9] = 0; rec[10] = 0; rec[11] = 0;
+        rec[12] = 0; rec[13] = 0; rec[14] = 0; rec[15] = 0;
+        rec[16] = src_fname.length & 0xff; rec[17] = (src_fname.length >> 8) & 0xff;
+        for (var i = 0; i < 64; ++i) {
+            if (i < src_fname.length) {
+                rec[18 + i] = src_fname.charCodeAt(i);
+            } else {
+                rec[18 + i] = 0;
+            }
+        }
+
+        // initiate get
+        binary_state = 21;
+        get_file_name = src_fname;
+        get_file_data = new Uint8Array(0);
+        update_file_status('Getting ' + get_file_name + '...');
+        ws.send(rec);
+    }
+
+    function get_ver() {
+        // WEBREPL_REQ_S = "<2sBBQLH64s"
+        var rec = new Uint8Array(2 + 1 + 1 + 8 + 4 + 2 + 64);
+        rec[0] = 'W'.charCodeAt(0);
+        rec[1] = 'A'.charCodeAt(0);
+        rec[2] = 3; // GET_VER
+        // rest of "rec" is zero
+
+        // initiate GET_VER
+        binary_state = 31;
+        ws.send(rec);
+    }
+
+    function handle_put_file_select(evt) {
+        // The event holds a FileList object which is a list of File objects,
+        // but we only support single file selection at the moment.
+        var files = evt.target.files;
+
+        // Get the file info and load its data.
+        var f = files[0];
+        put_file_name = f.name;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            put_file_data = new Uint8Array(e.target.result);
+            document.getElementById('put-file-list').innerHTML = '' + escape(put_file_name) + ' - ' + put_file_data.length + ' bytes';
+            document.getElementById('put-file-button').disabled = false;
+        };
+        reader.readAsArrayBuffer(f);
+    }
+    
+    
+    
+    
+    function stringToArray(bufferString) {
+        let uint8Array = new TextEncoder("utf-8").encode(bufferString);
+        return uint8Array;
+    }
+    
+    
+    function save_code_to_esp_repl()
+    {
+        console.log("save");
+        document.getElementById("save_dialog_btn").value = "Ukládám";
+        document.getElementById("save_dialog_btn").disabled = true;
+        
+        var save_code = editor.getValue().replace(/\r\n|\r|\n/g, "\r");
+        var save_filename = document.getElementById("save_filename").value;
+        
+        save_filename = delete_non_ascii(save_filename);
+        save_filename = nahraditNepovoleneZnaky(save_filename);
+        save_filename = replaceAll(save_filename, " ","_");
+        
+        // Delete non ascii characters from filename
+        document.getElementById("save_filename").value = save_filename;
+        
+        save_filename = replaceAll(save_filename, ".xml", "");
+        save_filename = replaceAll(save_filename, ".XML", "");
+        
+        var xml = Blockly.Xml.workspaceToDom(demoWorkspace);
+        var xml_text = Blockly.Xml.domToText(xml)
+        
+        xml_text = new TextEncoder().encode(xml_text);
+        xml_text = pako.gzip(xml_text);
+        
+        ws.send('\x03');
+        sleepFor(250);
+        
+        // First file to save
+        put_file_name = '/blk/' + save_filename + '.xml.gz';
+        put_file_data = xml_text;
+        //console.log(escape(put_file_name) + ' - ' + put_file_data.length + ' bytes');
+        put_file();
+        
+    }
+    
+    function close_save()
+    {
+        document.getElementById("save_dialog").style.display = "none";
+    }
+    
+    function save_file_dialog()
+    {
+        document.getElementById("save_dialog_btn").disabled = false;
+        document.getElementById("save_dialog_btn").value = "Uložit";
+        document.getElementById("save_dialog").style.display = "block";
+    }
+    
+
+    
+    
+    function close_load()
+    {
+        document.getElementById("load_dialog").style.display = "none";
+    }
+    
+    function open_file_dialog()
+    {
+        document.getElementById("load_filename").value = "";
+        async_list_files();
+        document.getElementById("load_dialog_btn").disabled = false;
+        document.getElementById("load_dialog_btn").value = "Otevřít";
+        document.getElementById("load_dialog").style.display = "block";
+    }
+    
+    
+    
+    function load_code_from_esp_repl()
+    {
+        console.log("load");
+        document.getElementById("load_dialog_btn").value = "Načítám";
+        document.getElementById("load_dialog_btn").disabled = true;
+        
+        var load_filename = document.getElementById("load_filename").value;
+        
+        load_filename = replaceAll(load_filename, ".gz", "");
+        load_filename = replaceAll(load_filename, ".GZ", "");
+        load_filename = replaceAll(load_filename, ".xml", "");
+        
+        document.getElementById("save_filename").value = load_filename;
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/*GET_FILE/blk/' + load_filename + '.xml' , true); // URL souboru s novými bloky
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200) {
+                
+                var fileContent = xhr.responseText;
+                var xml = Blockly.Xml.textToDom(fileContent);
+                try {
+                    demoWorkspace.clear();
+                    Blockly.Xml.domToWorkspace(xml, demoWorkspace);
+                } catch (error) {
+                    //console.log(error.message)
+                    var err_msg = error.message.replace("Unknown block type:", "Je nutné naimportovat tyto bloky do zásobníku:");
+                    alert("Nastala chyba při načítání vašeho projektu!\n" + err_msg)
+                }
+                close_load();
+            }
+            if(xhr.readyState == 4 && xhr.status == 404) {
+                alert("Chyba při načítání souboru!");
+                close_load();
+            }
+        }
+        xhr.send();
+        //get_file("/blk/" + load_filename);
+    }
+    
+
+    
+    function async_list_files()
+    {
+        ws.send('\x03\x03list_files("/blk")\r');
+        path = "/blk";
+    }
+    
+    
+    
+    function close_code()
+    {
+        document.getElementById("code_dialog").style.display = "none";
+        code_window_open = false;
+    }
+    
+    function showCode()
+    {           
+        if (code_window_open == false)
+        {
+            Blockly.Python.INFINITE_LOOP_TRAP = null;
+            var str_code = Blockly.Python.workspaceToCode(demoWorkspace);
+            editor.setValue(str_code,1);
+            document.getElementById("code_dialog").style.display = "block";
+            code_window_open = true;
+        }
+        else
+        {
+            close_code();
+            code_window_open = false;
+        }
+    }
+    
+    
+    
+    
+    function close_wifi_dialog()
+    {
+        document.getElementById("wifi_dialog").style.display = "none";
+    }
+    
+    function open_wifi_dialog()
+    {
+        ws.send('\x03\x03list_wifi()\r');
+        document.getElementById("wifi_dialog").style.display = "block";
+    }
+    
+    function save_wifi_to_esp_repl()
+    {
+        console.log("save wifi");
+        
+        var save_str = "";
+        
+        
+        if (document.getElementById("ssid3").value.length > 0)
+        {   
+            save_str = save_str + document.getElementById("ssid3").value + ";" + document.getElementById("pass3").value + "\r";
+        }        
+        
+        if (document.getElementById("ssid2").value.length > 0)
+        {   
+            save_str = save_str + document.getElementById("ssid2").value + ";" + document.getElementById("pass2").value + "\r";
+        }
+        
+        if (document.getElementById("ssid1").value.length > 0)
+        {   
+            save_str = save_str + document.getElementById("ssid1").value + ";" + document.getElementById("pass1").value + "\r";
+        }
+        
+        if (document.getElementById("ssid0").value.length > 0)
+        {   
+            save_str = save_str + document.getElementById("ssid0").value + ";" + document.getElementById("pass0").value + "\r";
+        }
+        
+        console.log(save_str);
+
+        var save_code = save_str.replace(/\r\n|\r|\n/g, "\r");
+
+        put_file_name = "/wifi.cfg";
+        put_file_data = new Uint8Array(stringToArray(save_code));
+        console.log(escape(put_file_name) + ' - ' + put_file_data.length + ' bytes');
+        put_file();
+    }
+    
+    
+    
+    
+    
+    function showDropdown() {
+      var x = document.getElementById("more_menu");
+      if (x.style.display === "none" || x.style.display === "") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    
+    
+    
+    function file_download(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+      
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      
+      element.click();
+      
+      document.body.removeChild(element);
+    }
+    
+    function code_download_pc() {
+        var xml = Blockly.Xml.workspaceToDom(demoWorkspace);
+        var xml_text = Blockly.Xml.domToText(xml);
+        
+        var save_filename = document.getElementById("save_filename").value;
+        
+        if (save_filename.endsWith('.xml'))
+        {
+            file_download(save_filename, xml_text);
+        }
+        else
+        {
+            file_download(save_filename + ".xml", xml_text);
+        }
+    }
+    
+    
+    function code_upload_pc() {
+        document.getElementById('upload_file_input').addEventListener('change', readSingleFile, false);
+        document.getElementById('upload_file_input').click();
+    }
+    
+    
+    function readSingleFile(e) {
+      var file = e.target.files[0];
+      if (!file) {
+        return;
+      }
+      document.getElementById("save_filename").value = file.name.replace(".xml", "");
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var contents = e.target.result;
+        try {
+            var xml = Blockly.Xml.textToDom(contents);
+            demoWorkspace.clear();
+            Blockly.Xml.domToWorkspace(xml, demoWorkspace);
+            this.value = "";
+          } catch (e) {
+            alert(e);
+          } 
+      };
+      reader.readAsText(file);
+    }
+    
+    
+    // Prevence zavreni
+    window.onbeforeunload = (event) => {
+    event.preventDefault();
+    event.returnValue = '';
+    }
+    
+    
+    
+    function draw_framebuffer(data) {
+        buffer = data;
+        var ctx = oled_canvas.getContext("2d");
+        
+        for (let y = 0; y < 8; y++) {
+            for (let x = 0; x < 128; x++) {
+                for (let i = 0; i < 8; i++) 
+                {
+                    var offset = (x*4)+(y*4096)+(i*512);
+                    if ((buffer[(y*128) + x] & Math.pow(2, i)) > 0)
+                    {
+                      img[offset] = 0;
+                      img[offset+1] = 0;
+                      img[offset+2] = 0;
+                      img[offset+3] = 255;
+                    }
+                    else
+                    {
+                      img[offset] = 255;
+                      img[offset+1] = 255;
+                      img[offset+2] = 255;
+                      img[offset+3] = 255;
+                    }
+                    
+                }
+            }
+         }
+        
+        // Get a pointer to the current location in the image.
+        var palette = ctx.getImageData(0,0,128,64); //x,y,w,h
+        // Wrap your array as a Uint8ClampedArray
+        palette.data.set(new Uint8ClampedArray(img)); // assuming values 0..255, RGBA, pre-mult.
+        // Repost the data.
+        ctx.putImageData(palette,0,0);
+    }
+    
+    
+    function oled_sim_click() {
+        if (oled_sim_opened == 0)
+        {
+            document.getElementById("virtual_oled").style.display = "block";
+            document.getElementById("Oled_Canvas").style.display = "block";
+            oled_canvas = document.getElementById("Oled_Canvas");
+            oled_sim_opened = 1;
+            
+            oled_timer = setInterval(oledTimer, 250);
+
+            function oledTimer() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", origin + '/*FB');
+                xhr.timeout = 450;
+                xhr.send();
+                xhr.responseType = "arraybuffer";
+                xhr.ontimeout = function () {console.log(`timeout: ${xhr.status}`);}
+                xhr.onload = () => {
+                  if (xhr.readyState == 4 && xhr.status == 200) {
+                    // console.log("OK:" + xhr.response);
+                    oled_buffer = new Uint8Array(xhr.response);
+                    draw_framebuffer(oled_buffer);
+                  } else {
+                    console.log(`Error: ${xhr.status}`);
+                  }
+                };
+            }
+        }
+        else
+        {
+            clearInterval(oled_timer);
+            document.getElementById("virtual_oled").style.display = "none";
+            oled_sim_opened = 0;
+        }
+        
+    }
+    
+    
+    
+    function joy_button_click() {
+        if (show_joystick == false)
+        {
+            document.getElementById("joy1Div").style.bottom = "18%";
+            document.getElementById("joy2Div").style.bottom = "18%";
+            show_joystick = true;
+            
+            joystick_timer = setInterval(joystickTimer, 125);
+            
+            function joystickTimer() {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", origin + '/*JOY;' + joy_X + ";" + joy_Y + ";" + joy_pressed + ";" + joy2_X + ";" + joy2_Y + ";" + joy2_pressed);
+                xhr.timeout = 240;
+                xhr.send();
+                xhr.responseType = "text";
+                xhr.ontimeout = function () {console.log(`timeout: ${xhr.status}`);}
+                xhr.onload = () => {
+                  if (xhr.readyState == 4 && xhr.status == 200) {
+                    //console.log("OK:" + xhr.response);
+                  } else {
+                    console.log(`Error: ${xhr.status}`);
+                  }
+                };
+            }
+            
+        }
+        else
+        {
+            document.getElementById("joy1Div").style.bottom = "150%";
+            document.getElementById("joy2Div").style.bottom = "150%";
+            show_joystick = false;
+            
+            clearInterval(joystick_timer);
+        }
+        
+    }
+    
+    
+    
+    
+    
+    function close_new_blocks_dialog()
+    {
+        document.getElementById("new_blocks_dialog").style.display = "none";
+    }
+    
+    function open_new_blocks_dialog()
+    {
+        document.getElementById("new_blocks_dialog").style.display = "block";
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '*NEW_BLOCKS', true); // URL souboru s novými bloky
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200) {
+                var blocks_list = xhr.responseText;
+
+                //console.log(blocks_list);
+                
+                var filesArray = blocks_list.split(";");
+                
+                // Uloží názvy vlastních bloků do globální Proměnné
+                custom_blocks_names = blocks_list.split(";");
+
+                // Získání reference na DIV, do kterého budeme vkládat obsah
+                var filesListDiv = document.getElementById("new_block_list");
+
+                // Proměnná pro uchování nově vytvořeného HTML obsahu
+                var newContent = "";
+
+                // Procházení pole souborů a vytváření HTML obsahu
+                filesArray.forEach(function(file) {
+                    newContent += "<div><input type='checkbox' id='" + file + "' name='" + file + "' value='" + file + "' style='margin-right: 12px; width: 22px; height: 22px; vertical-align: -5px; display: inline;'><label for="  + file + ">" + file + "</label><br></div>";
+                })
+                
+                filesListDiv.innerHTML = newContent;
+
+           }
+        }
+        xhr.send();
+    }
+    
+
+
+    
+    function load_new_blocks_to_localStorage()
+    {
+        var code_js = "";
+        var xml_toolbox = "";
+        var celkem_souboru = 0;
+        var prubeh_nacitani = 0;
+        
+        var workspace = Blockly.getMainWorkspace();
+        var xmlElement = document.getElementById('toolbox');
+        var original_toolbox_content = xmlElement.innerHTML;
+        
+        //console.log(custom_blocks_names);
+        
+        custom_blocks_names.forEach(function(id) {
+            // Získání elementu checkboxu podle jeho ID
+            var checkbox = document.getElementById(id);
+            
+            // Kontrola, zda je checkbox zaškrtnut
+            if (checkbox.checked) {
+                console.log("Checkbox s ID '" + id + "' je zaškrtnut. Načítám jeho obsah.");
+                celkem_souboru = celkem_souboru + 1;
+                
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/*GET_FILE/moje_bloky/' + id + '.newblk' , true); // URL souboru s novými bloky
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState == 4 && xhr.status == 200) {
+                        var separator = '<!toolbox!>';
+                        var fileContent = xhr.responseText;
+                        var parts = fileContent.split(separator);
+
+                        var beforeSeparator = parts[0]; // Obsah před oddělovačem
+                        var afterSeparator = parts.length > 1 ? parts[1] : ''; // Obsah po oddělovači
+                        
+                        code_js = code_js + beforeSeparator;
+                        xml_toolbox = xml_toolbox + afterSeparator;
+                        
+                        prubeh_nacitani = prubeh_nacitani + 1
+                        
+                        // Kdyz jsou vsechny bloky nacteny proved jejich integraci
+                        if (prubeh_nacitani == celkem_souboru)
+                        {
+                            //console.log(code_js);
+                            //console.log(xml_toolbox);
+                            
+                            localStorage.setItem('new_blocks_js', code_js);
+                            localStorage.setItem('new_blocks_xml', xml_toolbox);
+                            
+                            // První část načteme do stránky jako JavaScript
+                            eval(code_js);
+
+                            // Druhá část
+                            workspace.updateToolbox('<xml id="toolbox" style="display: none">' + original_toolbox_content +  xml_toolbox + '</xml>');
+                        }
+                        
+                    }
+                }
+                xhr.send();
+                
+                
+            } else {
+                console.log("Checkbox s ID '" + id + "' není zaškrtnut.");
+            }
+        });
+        
+        if (celkem_souboru == 0)
+        {
+            localStorage.setItem('new_blocks_js', "");
+            localStorage.setItem('new_blocks_xml', "");
+            workspace.updateToolbox('<xml id="toolbox" style="display: none">' + original_toolbox_content + '</xml>');
+        }
+        
+        
+    }
+    
+    
+    
+    
+  </script>  
+  <title>Editor</title>
+  <style type="text/css" media="screen">
+    html,body {
+        height: 100%;
+    }
+    
+    body {
+        overflow: hidden;
+        margin:0;
+        padding: 0px;
+        background-color: #F6F6F6;
+        box-sizing: border-box;
+    }
+
+    .ace_editor {
+        margin: 0;
+        position: relative;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width:100%;
+    }
+    
+    #term {
+        margin: 0;
+        position: relative;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #000;
+        height: 100%;
+        width:100%;
+    }
+    
+    .terminal {
+        border: #000 solid 2px;
+        background: #000;
+    }
+    
+    .x, .x_code, #save_dialog_btn, #load_dialog_btn {
+        cursor:pointer;
+    }
+
+    .split {
+         -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+         box-sizing: border-box;
+         overflow-y: auto;
+         overflow-x: hidden;
+    }
+     
+    .content {
+         border: 0px solid #C0C0C0;
+    }
+     
+    .gutter {
+         background-color: transparent;
+    }
+     
+    .gutter.gutter-vertical {
+         cursor: row-resize;
+    }
+     
+    #editor_div {
+        padding-top: 44px;
+    }
+    
+    
+    #more_button  {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        height: 42px;
+        width: 40px;
+        background: #f6f6f6;
+        display: block;
+        text-align: center;
+        cursor: pointer;
+        font-size: 30px; /* The size of the dots */
+        caret-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    } 
+    
+    
+    #more_menu  {
+        position: absolute;
+        top: 48px;
+        right: 32px;
+        height: 284px;
+        width: 200px;
+        background: #f6f6f6;
+        cursor: pointer;
+        text-align: Left;
+        font-size: 15px;
+        font-family: Geneva, sans-serif;
+        caret-color: transparent;
+        border: 1px solid #a8a8a8;
+        display: none;
+        border-radius: 4px;
+        caret-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    } 
+    
+   
+    
+    
+    #code_dialog  {
+        position: absolute;
+        top: 48px;
+        right: 20px;
+        height: 65%;
+        left: 50px;
+        background: #e6e6e6;
+        border-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        display: none;
+    } 
+
+    
+    #save_dialog, #load_dialog  {
+        position: absolute;
+        top: 70px;
+        left: 210px;
+        height: 140px;
+        width:250px;
+        background: #e6e6e6;
+        border-radius: 6px;
+        border: 1px solid #BBBBBB;
+        display: none;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    } 
+    
+    
+    #wifi_dialog {
+        position: absolute;
+        top: 70px;
+        left: 210px;
+        height: 250px;
+        width:300px;
+        background: #e6e6e6;
+        border-radius: 6px;
+        border: 1px solid #BBBBBB;
+        display: none;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+    
+    
+    #new_blocks_dialog {
+        position: absolute;
+        top: 70px;
+        left: 210px;
+        height: 400px;
+        width:300px;
+        background: #e6e6e6;
+        border-radius: 6px;
+        border: 1px solid #BBBBBB;
+        display: none;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+    
+    
+    #virtual_oled  {
+        position: absolute;
+        top: 74px;
+        right: 26px;
+        height: 64px;
+        width:128px;
+        background: #FFFFFF;
+        border: 1px solid #a8a8a8;
+        display: none;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
+    input, select{
+        display: block;
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        border-radius: 5px;
+        font-size: 16px;
+        background: #fAfAfA;
+        width: 90%; 
+        padding: 10px;
+        margin: 10px 10px;
+        -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+        -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+        box-sizing: border-box;         /* Opera/IE 8+ */
+    }
+    
+    .x {
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 32px;
+        height: 24px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+    
+    .x_code {
+        display: block;
+        position: absolute;
+        right: 14px;
+        top: 0;
+        width: 28px;
+        height: 24px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        z-index: 3;
+        font-size:x-large;
+    }
+    
+    #blocklyDiv {
+        height: 100%;
+        width:100%;
+    }
+
+
+
+/* Adds padding around the group of categories and separators. */
+.blocklyToolboxContents {
+  padding: .1em;
+}
+
+/* Adds space between the categories, rounds the corners and adds space around the label. */
+.blocklyTreeRow {
+  padding: 10px; 
+  margin-bottom: .2em;
+  border-radius: 5px;
+}
+
+.blocklyFlyoutBackground {
+    fill: #f6f6f6;
+}
+
+.blocklyToolboxDiv {
+    background-color: #f6f6f6;
+}
+
+.blocklyTreeIcon {
+    width: 1px;
+}
+
+</style>
+</head>
+<body>
+    <img src="topbar_blk.png" width="500" height="42" usemap="#icon_map" style="position: absolute; user-drag: none; user-select: none; top: 2px; left: 0px">
+    <map name="icon_map">
+        <area alt="Spustit kód" title="Spustit kód" shape="rect" coords="8,1,85,41" onclick="phone_vibrate();runCode();" style="cursor: pointer;">
+        <area alt="Zastavit program" title="Zastavit program" shape="rect" coords="94,1,136,41" onclick="phone_vibrate();ws.send('\x03\x03stop_code()\r');" style="cursor: pointer;">
+        <area alt="Otevřít soubor z ESP" title="Otevřít soubor z vnitřní paměti" shape="rect" coords="145,1,188,41" onclick="phone_vibrate();open_file_dialog();" style="cursor: pointer;">
+        <area alt="Uložit soubor do ESP" title="Uložit soubor do vnitřní paměti" shape="rect" coords="192,1,234,41" onclick="phone_vibrate();save_file_dialog();" style="cursor: pointer;">
+        <area alt="Zpět" title="Zpět" shape="rect" coords="240,1,282,41" onclick="phone_vibrate();Blockly.mainWorkspace.undo(false);" style="cursor: pointer;">
+        <area alt="Znovu" title="Znovu" shape="rect" coords="288,1,330,41" onclick="phone_vibrate();Blockly.mainWorkspace.undo(true);" style="cursor: pointer;">
+        <area alt="Zobrazit kód" title="Zobrazit kód" shape="rect" coords="336,1,376,41" onclick="phone_vibrate();showCode();" style="cursor: pointer;">
+        <area alt="Náhled na OLED display" title="Náhled na OLED display" shape="rect" coords="380,1,420,31" onclick="phone_vibrate();oled_sim_click();" style="cursor: pointer;"/>
+        <area alt="Virtuální joystick" title="Virtuální joystick" shape="rect" coords="435,1,475,31" onclick="phone_vibrate();joy_button_click();" style="cursor: pointer;"/>
+    </map>
+        
+    <div id="editor_div" class="split content"><div id="blocklyDiv"></div></div>
+    <div id="terminal_div" class="split content"><div id="term"></div></div>
+    
+    <div id="code_dialog" style="z-index: 150;">
+    <div class="x_code" onclick="close_code();">x</div>
+        <pre id="editor"></pre>
+    </div>
+    
+    
+    <div id="more_button" onclick="showDropdown();">&#x2630;</div>
+    <div id="more_menu" >
+        <div>
+          <input title="Po zapnutí procesoru se soubor automaticky spustí" type="checkbox" id="autostart" name="autostart" onclick="setTimeout(function(){showDropdown()}, 150);" style="margin-right: 5px; width: 28px; height: 28px; vertical-align: -8px; display: inline;">
+          <label title="Po zapnutí procesoru se soubor automaticky spustí" for="autostart">Automaticky spustit</label>
+        </div>
+        
+        <hr>
+        
+        <button type="button" title="Soubor z PC načíst do editoru" onclick="code_upload_pc();showDropdown(); " style="margin: 2px; width: 98%; height: 42px; vertical-align: middle; display: inline;">Otevřít projekt z PC</button>
+        <button type="button" title="Stáhnout právě otevřený soubor do PC" onclick="code_download_pc();showDropdown(); " style="margin: 2px; width: 98%; height: 42px; vertical-align: middle; display: inline;">Uložit projekt do PC</button>
+        <hr>
+        <button type="button" title="Otevře nastavení wifi sítí ke kterým se může modul připojit" onclick="open_wifi_dialog();showDropdown(); " style="margin: 2px; width: 98%; height: 42px; vertical-align: middle; display: inline;">Nastavení WIFI</button>
+        
+        <hr>
+        
+        <button type="button" title="Správce nových bloků" onclick="open_new_blocks_dialog();showDropdown(); " style="margin: 2px; width: 98%; height: 42px; vertical-align: middle; display: inline;">Správce nových bloků</button>
+        
+ 
+    </div>
+    
+    <div id="wifi_dialog" style="z-index: 190;">
+    <div class="x" onclick="close_wifi_dialog();">x</div>
+        <form  class="form_style" action="">
+          <p align="center" style="margin: 10px;">Nastavení Wifi</p>
+
+            <input name="ssid0" id="ssid0" placeholder="SSID 1" style="position: absolute; top: 35px; left: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            <input name="pass0" id="pass0" placeholder="Heslo" style="position: absolute; top: 35px; right: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+           
+            <input name="ssid1" id="ssid1" placeholder="SSID 2" style="position: absolute; top: 75px; left: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            <input name="pass1" id="pass1" placeholder="Heslo" style="position: absolute; top: 75px; right: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            
+            <input name="ssid2" id="ssid2" placeholder="SSID 3" style="position: absolute; top: 115px; left: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            <input name="pass2" id="pass2" placeholder="Heslo" style="position: absolute; top: 115px; right: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            
+            <input name="ssid3" id="ssid3" placeholder="SSID 4" style="position: absolute; top: 155px; left: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            <input name="pass3" id="pass3" placeholder="Heslo" style="position: absolute; top: 155px; right: 10px; width: 45%; height: 32px; font-size: 12px; margin: 0px 0px;">
+            
+            <input type="submit" id="wifi_save_dialog_btn" value="Uložit" onclick="save_wifi_to_esp_repl(); return false;" style="position: absolute; top: 200px; left: 3%; width: 94%; height: 40px; font-size: 14px; margin: 0px 0px;">
+        </form>
+    </div>
+    
+
+    
+    <div id="new_blocks_dialog" style="z-index: 180;">
+    <div class="x" onclick="close_new_blocks_dialog();">x</div>
+        <p align="center" style="margin: 10px;">Správce nových bloků</p>
+        <div id="new_block_list" style="height:300px; overflow:auto;" ></div>
+        <input type="submit" id="my_blocks_load_btn" value="Zobrazit vybrané bloky" onclick="load_new_blocks_to_localStorage(); return false;" style="position: absolute; top: 350px; left: 3%; width: 94%; height: 40px; font-size: 14px; margin: 0px 0px;">
+    </div>
+
+
+    
+    <input id="upload_file_input" type="file" style="position: absolute; top: 99%; left: 99%; width: 0px; height: 0px; padding: 0px"/>
+    
+    <div id="save_dialog" style="z-index: 200;">
+    <div class="x" onclick="close_save();">x</div>
+        <form  class="form_style" action="">
+          <p align="center" style="margin: 10px;">Uložit soubor do ESP</p>
+          <input type="text" id="save_filename" name="save_filename" value="nazev_projektu" placeholder="nazev_projektu">
+          <input type="submit" id="save_dialog_btn" value="Uložit" onclick="save_code_to_esp_repl(); return false;">
+        </form> 
+    </div>
+    
+    <div id="load_dialog" style="z-index: 210;">
+    <div class="x" onclick="close_load();">x</div>
+        <form  class="form_style" action="">
+          <p align="center" style="margin: 10px;">Otevřít soubor z ESP</p>
+          <select id="load_filename" name="load_filename"></select>
+          <input type="submit" id="load_dialog_btn" value="Otevřít" onclick="load_code_from_esp_repl(); return false;">
+        </form> 
+    </div>
+    
+    
+    <div id="virtual_oled" style="z-index: 160;">
+        <canvas id="Oled_Canvas" width="128" height="64"></canvas>
+    </div>
+    
+    <div id="joy1Div" style="position: absolute; bottom: 150%; right: 2%;width:225px;height:225px;z-index: 100000;"></div>
+    <div id="joy2Div" style="position: absolute; bottom: 150%; left: 2%;width:225px;height:225px;z-index: 100000;"></div>
+    
+    
+    <xml id="toolbox" style="display: none" >
+        <category name="Logika" colour="#ffab19">
+            <block type="controls_if"></block>
+            <block type="logic_compare">
+                <field name="OP">EQ</field>
+            </block>
+            <block type="logic_operation">
+                <field name="OP">AND</field>
+            </block>
+            <block type="logic_negate"></block>
+            <block type="logic_boolean">
+                <field name="BOOL">TRUE</field>
+            </block>
+        </category>
+        
+        <category name="Cykly" colour="#f1cd18">
+            <block type="loop_forever"></block>
+            <block type="controls_repeat_ext">
+                <value name="TIMES">
+                    <shadow type="math_number">
+                        <field name="NUM">10</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="controls_whileUntil">
+                <field name="MODE">WHILE</field>
+            </block>
+            <block type="controls_for">
+                <field name="VAR" id="4!p{PRHf9Wy7rzMrR@IO" variabletype="">i</field>
+                <value name="FROM">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+                <value name="TO">
+                    <shadow type="math_number">
+                        <field name="NUM">10</field>
+                    </shadow>
+                </value>
+                <value name="BY">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+            </block>
+            
+            <block type="timer"></block>
+            <block type="utime.deadline">
+              <value name="TIME">
+              <shadow type="math_number">
+                <field name="NUM">100</field>
+              </shadow>
+              </value>
+            </block>
+            <block type="stop_timer">
+               <value name="timerNumber">
+                <shadow type="math_number">
+                  <field name="NUM">0</field>
+                </shadow>
+              </value>
+            </block>
+            
+            <block type="controls_forEach">
+                <field name="VAR" id="tdl-Vv6An4XV{3]g3N=h" variabletype="">j</field>
+            </block>
+            
+            <block type="controls_flow_statements" disabled="false">
+                <field name="FLOW">BREAK</field>
+            </block>
+        </category>
+        
+        <category name="Matematika" colour="#40bf4a">
+            <block type="math_number">
+                <field name="NUM">0</field>
+            </block>
+            <block type="math_arithmetic">
+                <field name="OP">ADD</field>
+                <value name="A">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+                <value name="B">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="math_single">
+                <field name="OP">ROOT</field>
+                <value name="NUM">
+                    <shadow type="math_number">
+                        <field name="NUM">9</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="math_trig">
+                <field name="OP">SIN</field>
+                <value name="NUM">
+                    <shadow type="math_number">
+                        <field name="NUM">45</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="math_constant">
+                <field name="CONSTANT">PI</field>
+            </block>
+            <block type="math_number_property">
+                <mutation divisor_input="false"></mutation>
+                <field name="PROPERTY">EVEN</field>
+                <value name="NUMBER_TO_CHECK">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="math_round">
+                <field name="OP">ROUND</field>
+                <value name="NUM">
+                    <shadow type="math_number">
+                        <field name="NUM">3.1</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="math_modulo">
+                <value name="DIVIDEND">
+                    <shadow type="math_number">
+                        <field name="NUM">64</field>
+                    </shadow>
+                </value>
+                <value name="DIVISOR">
+                    <shadow type="math_number">
+                        <field name="NUM">10</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="math_constrain">
+                <value name="VALUE">
+                    <shadow type="math_number">
+                        <field name="NUM">50</field>
+                    </shadow>
+                </value>
+                <value name="LOW">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+                <value name="HIGH">
+                    <shadow type="math_number">
+                        <field name="NUM">100</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="math_random_int">
+                <value name="FROM">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+                <value name="TO">
+                    <shadow type="math_number">
+                        <field name="NUM">100</field>
+                    </shadow>
+                </value>
+            </block>
+            
+            <block type="zmena_rozsahu">
+                <value name="in_min">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="in_max">
+                    <shadow type="math_number">
+                        <field name="NUM">1023</field>
+                    </shadow>
+                </value>
+                <value name="out_min">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="out_max">
+                    <shadow type="math_number">
+                        <field name="NUM">255</field>
+                    </shadow>
+                </value>
+            </block>
+            
+            <block type="any_to_int">
+            </block>
+            
+        </category>
+        
+        
+        <category name="Pole" colour="#4cbfe6">
+            <block type="lists_create_with">
+                <mutation items="0"></mutation>
+            </block>
+            <block type="lists_create_with"></block>
+            <block type="lists_repeat">
+                <value name="NUM">
+                    <shadow type="math_number">
+                        <field name="NUM">5</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="lists_length"></block>
+            <block type="lists_isEmpty"></block>
+            <block type="lists_indexOf">
+                <value name="VALUE">
+                    <block type="variables_get">
+                        <field name="VAR">seznam1</field>
+                    </block>
+                </value>
+            </block>
+            <block type="lists_getIndex">
+                <value name="VALUE">
+                    <block type="variables_get">
+                        <field name="VAR">seznam1</field>
+                    </block>
+                </value>
+            </block>
+            <block type="lists_setIndex">
+                <value name="LIST">
+                    <block type="variables_get">
+                        <field name="VAR">seznam1</field>
+                    </block>
+                </value>
+            </block>
+            <block type="lists_getSublist">
+                <value name="LIST">
+                    <block type="variables_get">
+                        <field name="VAR">seznam1</field>
+                    </block>
+                </value>
+            </block>
+            <block type="lists_split">
+                <value name="DELIM">
+                    <shadow type="text">
+                        <field name="TEXT">,</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="lists_sort"></block>
+        </category>
+        
+        
+        
+        
+        
+        
+        <category name="Text" colour="#9966ff">
+            <block type="text">
+                <field name="TEXT"></field>
+            </block>
+            <block type="text_print">
+                <value name="TEXT">
+                    <shadow type="text">
+                        <field name="TEXT">abc</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="text_join">
+                <mutation items="2"></mutation>
+            </block>
+            <block type="text_append">
+                <field name="VAR" id="_6:_6UxDDLtGoc},k=]`" variabletype="">item</field>
+                <value name="TEXT">
+                    <shadow type="text">
+                        <field name="TEXT"></field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="text_length">
+                <value name="VALUE">
+                    <shadow type="text">
+                        <field name="TEXT">abc</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="text_isEmpty">
+                <value name="VALUE">
+                    <shadow type="text">
+                        <field name="TEXT"></field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="text_indexOf">
+                <field name="END">FIRST</field>
+                <value name="VALUE">
+                    <block type="variables_get">
+                        <field name="VAR" id="IAx@0bR~YUFX$^fZ85QJ" variabletype="">text</field>
+                    </block>
+                </value>
+                <value name="FIND">
+                    <shadow type="text">
+                        <field name="TEXT">abc</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="text_charAt">
+                <mutation at="true"></mutation>
+                <field name="WHERE">FROM_START</field>
+                <value name="VALUE">
+                    <block type="variables_get">
+                        <field name="VAR" id="IAx@0bR~YUFX$^fZ85QJ" variabletype="">text</field>
+                    </block>
+                </value>
+            </block>
+            <block type="text_trim">
+                <field name="MODE">BOTH</field>
+                <value name="TEXT">
+                    <shadow type="text">
+                        <field name="TEXT">abc</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="text_getSubstring">
+                <mutation at1="true" at2="true"></mutation>
+                <field name="WHERE1">FROM_START</field>
+                <field name="WHERE2">FROM_START</field>
+                <value name="STRING">
+                    <block type="variables_get">
+                        <field name="VAR" id="IAx@0bR~YUFX$^fZ85QJ" variabletype="">text</field>
+                    </block>
+                </value>
+            </block>
+            <block type="text_changeCase">
+                <field name="CASE">UPPERCASE</field>
+                <value name="TEXT">
+                    <shadow type="text">
+                        <field name="TEXT">abc</field>
+                    </shadow>
+                </value>
+            </block>
+        </category>
+        
+        <category name="Proměnné" colour="#ff8c1a" custom="VARIABLE">
+        </category>
+                
+        <category name="Funkce" colour="#ff6680" custom="PROCEDURE"></category>
+        
+        <category name="Vstupy"  colour="#00979d">
+            <block type="gpio_get">
+                <value name="pin">
+                    <shadow type="pinout">
+                        <field name="PIN">22</field>
+                    </shadow>
+                </value>
+            </block>
+            
+            <block type="gpio_init_get">
+                <value name="pin">
+                    <shadow type="pinout">
+                        <field name="PIN">22</field>
+                    </shadow>
+                </value>
+            </block>
+            
+            <block type="esp32_adc">
+              <value name="pin">
+                <shadow type="adc_pinout">
+                  <field name="PIN">32</field>
+                </shadow>
+              </value>
+            </block>
+            
+            
+            <!--esp32C3 C3 disabled-->
+            <block type="touch_pin_sens" disabled="false">
+            </block>
+            
+            
+            <block type="gpio_interrupt">
+              <value name="pin">
+                <shadow type="pinout">
+                  <field name="PIN">0</field>
+                </shadow>
+              </value>
+            </block>
+            
+            
+            <block type="gpio_interrupt_off">
+              <value name="pin">
+                <shadow type="pinout">
+                  <field name="PIN">0</field>
+                </shadow>
+              </value>
+            </block>
+            
+            <block type="pinout"></block>
+        </category>
+        
+        <category name="Výstupy"  colour="#00979d">
+            <block type="gpio_set">
+                <value name="pin">
+                    <shadow type="pinout">
+                        <field name="PIN">22</field>
+                    </shadow>
+                </value>
+                <value name="value">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+            </block>
+            
+            <block type="pwm">
+                <value name="pin">
+                    <shadow type="pinout">
+                        <field name="PIN">22</field>
+                    </shadow>
+                </value>
+                <value name="frequency">
+                    <shadow type="math_number">
+                        <field name="NUM">50</field>
+                    </shadow>
+                </value>
+                <value name="duty">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+            </block>
+            
+            <block type="pwm.freq">
+                <value name="frequency">
+                    <shadow type="math_number">
+                        <field name="NUM">50</field>
+                    </shadow>
+                </value>
+            </block>
+            
+            <block type="pwm.duty">
+                <value name="duty">
+                    <shadow type="math_number">
+                        <field name="NUM">512</field>
+                    </shadow>
+                </value>
+            </block>
+            
+            <block type="pwm.deinit"></block>
+            
+            <!--esp32C3 C3 disabled-->
+            <block type="dac_write"  disabled="false">
+                <value name="val">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+            </block>
+            
+            
+            
+            
+
+            <block type="pinout"></block>
+        </category>
+
+        
+        <category name="Čas"  colour="#00979d">
+            <block type="utime.delay">
+               <value name="TIME">
+                <shadow type="math_number">
+                  <field name="NUM">1</field>
+                </shadow>
+              </value>
+            </block>
+            <block type="utime.vars"></block>
+            <block type="cas_var"></block>
+            <block type="ntp_sync">
+            <value name="tz">
+              <shadow type="math_number">
+                <field name="NUM">1</field>
+              </shadow>
+            </value>
+            </block>
+            <!--
+            <block type="utime.ticks_add">
+               <value name="TIME1">
+                <shadow type="utime.vars"></shadow>
+              </value>
+              <value name="TIME2">
+              <shadow type="math_number">
+                <field name="NUM">100</field>
+              </shadow>
+              </value>
+            </block>
+            <block type="utime.ticks_diff"></block>
+            -->
+            <block type="esp32_set_rtc"></block>
+            <block type="esp32_get_rtc"></block>
+            <block type="deep_sleep">
+             <value name="interval">
+                <shadow type="math_number">
+                  <field name="NUM">1000</field>
+                </shadow>
+              </value>
+            </block>
+          </category>
+          
+          
+          <category name="Program"  colour="#00979d">
+            <block type="get_ssid"></block> 
+            <block type="get_ip"></block> 
+          
+            <block type="python_try_catch"></block> 
+            <block type="python_catch_err"></block> 
+            
+ 
+            <block type="exec_python">
+                <value name="command">
+                    <shadow type="text">
+                    <field name="TEXT"></field>
+                    </shadow>
+                </value>
+            </block>
+            
+            <block type="def_exit"></block> 
+            
+
+
+          </category>
+          
+          
+          <category name="Display" colour="#c953e2">
+              <block type="fb_fill">
+              </block>
+              
+              <block type="oded_refresh">
+              </block>
+              
+              <block type="fb_txt">
+                <value name="text">
+                    <shadow type="text">
+                        <field name="TEXT">abc</field>
+                    </shadow>
+                </value>
+                <value name="px">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="py">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="barva">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="fb_txt_mini">
+                <value name="text">
+                    <shadow type="text">
+                        <field name="TEXT">abc</field>
+                    </shadow>
+                </value>
+                <value name="px">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="py">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="barva">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <button text="otevřít editor obrázků" callbackKey="open_image_editor"></button>
+              
+              <block type="fb_draw_pic">
+                <value name="px">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="py">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="data">
+                    <shadow type="text">
+                        <field name="TEXT">bytearray(b'\x7e\xd5\xab\xd5\xab\xd5\xab\x7e'), 8, 8</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="fb_pixel">
+                <value name="px">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="py">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="col">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="fb_line">
+                <value name="px1">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="py1">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="px2">
+                    <shadow type="math_number">
+                        <field name="NUM">32</field>
+                    </shadow>
+                </value>
+                <value name="py2">
+                    <shadow type="math_number">
+                        <field name="NUM">32</field>
+                    </shadow>
+                </value>
+                <value name="col">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="fb_rect">
+                <value name="px">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="py">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="sirka">
+                    <shadow type="math_number">
+                        <field name="NUM">32</field>
+                    </shadow>
+                </value>
+                <value name="vyska">
+                    <shadow type="math_number">
+                        <field name="NUM">32</field>
+                    </shadow>
+                </value>
+                <value name="col">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="fb_rect_fill">
+                <value name="px">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="py">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+                <value name="sirka">
+                    <shadow type="math_number">
+                        <field name="NUM">32</field>
+                    </shadow>
+                </value>
+                <value name="vyska">
+                    <shadow type="math_number">
+                        <field name="NUM">32</field>
+                    </shadow>
+                </value>
+                <value name="col">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+              </block>
+              
+          </category>
+          
+          
+          
+          <category name="Snímače"  colour="#1CA1FF">
+              <label text="Teploměr/vlhkoměr s DHT11, DHT22, AM2302"></label>
+              <block type="dht_init" disabled="false">
+                <value name="pin">
+                    <shadow type="pinout">
+                        <field name="PIN">13</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="dht_measure" disabled="false"></block>
+              <block type="dht_read_temp" disabled="false"></block>
+              <block type="dht_read_humidity" disabled="false"></block>
+              
+              
+              <label text="Ultrazvukový dálkoměr HC-SR04"></label>
+              <block type="hcsr_init" disabled="false">
+                <value name="echo">
+                    <shadow type="pinout">
+                        <field name="PIN">33</field>
+                    </shadow>
+                </value>
+                <value name="trigger">
+                    <shadow type="pinout">
+                        <field name="PIN">25</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="hcsr_read_mm" disabled="false"></block>
+              <block type="hcsr_read_cm" disabled="false"></block>
+              
+              <label text="Joystick"></label>
+              <block type="joystick_init" disabled="false">
+                <value name="vrx">
+                    <shadow type="adc_pinout">
+                        <field name="PIN">34</field>
+                    </shadow>
+                </value>
+                <value name="vry">
+                    <shadow type="adc_pinout">
+                        <field name="PIN">35</field>
+                    </shadow>
+                </value>
+                <value name="sw">
+                    <shadow type="pinout">
+                        <field name="PIN">4</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="get_joy_axis" disabled="false"></block>
+              <block type="get_joy_state" disabled="false"></block>
+  
+              
+              
+              <label text="Rotační enkodér"></label>
+              <block type="encoder_init" disabled="false">
+                <value name="A">
+                    <shadow type="pinout">
+                        <field name="PIN">34</field>
+                    </shadow>
+                </value>
+                <value name="B">
+                    <shadow type="pinout">
+                        <field name="PIN">35</field>
+                    </shadow>
+                </value>
+                <value name="reverse">
+                    <shadow type="logic_boolean">
+                        <field name="BOOL">FALSE</field>
+                    </shadow>
+                </value>
+                <value name="scale">
+                    <shadow type="math_number">
+                        <field name="NUM">1</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="encoder_get" disabled="false"></block>
+              
+              <block type="encoder_set" disabled="false">
+                <value name="Val">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+              </block>
+              
+  
+
+              
+              
+              
+              <label text="Snímač barev TCS34725"></label>
+              <block type="tcs34725_init" disabled="false">
+                <value name="exposure">
+                    <shadow type="math_number">
+                        <field name="NUM">25</field>
+                    </shadow>
+                </value>
+                <value name="scl">
+                    <shadow type="pinout">
+                        <field name="PIN">17</field>
+                    </shadow>
+                </value>
+                <value name="sda">
+                    <shadow type="pinout">
+                        <field name="PIN">16</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              
+              <block type="tcs34725_is_col" disabled="false"></block>
+              <block type="tcs34725_rgb" disabled="false"></block>
+              
+              
+              <label text="Gyro MPU6050"></label>
+              <block type="mpu6050_init" disabled="false">
+                <value name="SCL">
+                    <shadow type="pinout">
+                        <field name="PIN">17</field>
+                    </shadow>
+                </value>
+                <value name="SDA">
+                    <shadow type="pinout">
+                        <field name="PIN">16</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="mpu6050_calibrate" disabled="false"></block>
+              <block type="mpu6050_fetch" disabled="false"></block>
+              
+              <block type="mpu6050_get_angle" disabled="false"></block>
+              <block type="mpu6050_get_accel" disabled="false"></block>
+              <block type="mpu6050_get_gyro" disabled="false"></block>
+              <block type="mpu6050_get_temp" disabled="false"></block>
+              
+              
+              <label text="Dálkoměr Vl53l0X"></label>
+              
+              <block type="vl53l0x_init" disabled="false">
+                <value name="SDA">
+                    <shadow type="pinout">
+                        <field name="PIN">17</field>
+                    </shadow>
+                </value>
+                <value name="SCL">
+                    <shadow type="pinout">
+                        <field name="PIN">16</field>
+                    </shadow>
+                </value>
+            </block>
+    
+
+            <block type="vl53l0x_fast_dist_mm" disabled="false"></block>
+            <block type="vl53l0x_fast_dist_cm" disabled="false"></block>
+            
+            <block type="vl53l0x_dist_mm" disabled="false"></block>
+            <block type="vl53l0x_dist_cm" disabled="false"></block>
+              
+          </category>
+          
+          
+          <category name="Pohony"  colour="#a6be39">
+              <label text="Modelářské servo"></label>
+              <block type="servo_init" disabled="false">
+                <value name="pin">
+                    <shadow type="pinout">
+                        <field name="PIN">22</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="servo_angle" disabled="false">
+                <value name="uhel">
+                    <shadow type="math_number">
+                        <field name="NUM">90</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="set_servo_speed" disabled="false">
+                <value name="speed">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="set_servo_us" disabled="false">
+                <value name="time">
+                    <shadow type="math_number">
+                        <field name="NUM">1500</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <label text="Stejnosměrný motor"></label>
+              
+              <block type="dc_motor_init" disabled="false">
+                <value name="pin1">
+                    <shadow type="pinout">
+                        <field name="PIN">17</field>
+                    </shadow>
+                </value>
+                <value name="pin2">
+                    <shadow type="pinout">
+                        <field name="PIN">18</field>
+                    </shadow>
+                </value>
+              </block>
+              
+              <block type="dc_motor_speed" disabled="false">
+                <value name="in_speed">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+              </block>
+              
+          </category>
+          
+          
+        
+        <category name="NeoPixel" colour="#df006e">
+          <label text="NeoPixel Led pásky"></label>
+
+          <block type="neopixel_init">
+           <value name="pin">
+              <shadow type="pinout">
+                <field name="PIN">0</field>
+              </shadow>
+           </value>
+
+           <value name="number">
+            <shadow type="math_number">
+              <field name="NUM">1</field>
+            </shadow>
+           </value>
+          </block>
+
+          <block type="neopixel_color_numbers">
+           <value name="red">
+            <shadow type="math_number">
+              <field name="NUM">223</field>
+            </shadow>
+           </value>
+           <value name="green">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+           </value>
+           <value name="blue">
+            <shadow type="math_number">
+              <field name="NUM">110</field>
+            </shadow>
+           </value>
+          </block>
+
+          <block type="neopixel_color_colors"></block>
+
+          <block type="HSL_to_RGB">
+            <value name="hue">
+            <shadow type="math_number">
+              <field name="NUM">330</field>
+            </shadow>
+            </value>
+            <value name="saturation">
+            <shadow type="math_number">
+              <field name="NUM">100</field>
+            </shadow>
+            </value>
+            <value name="lightness">
+            <shadow type="math_number">
+              <field name="NUM">44</field>
+            </shadow>
+            </value>
+          </block>
+
+          <block type="neopixel_control">
+           <value name="address">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+           </value>
+
+           <value name="color">
+            <shadow type="neopixel_color_colors">
+            </shadow>
+           </value>
+          </block>
+
+          <block type="neopixel_control">
+           <value name="address">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+           </value>
+
+           <value name="color">
+            <block type="neopixel_color_numbers">
+               <value name="red">
+                <shadow type="math_number">
+                  <field name="NUM">223</field>
+                </shadow>
+               </value>
+               <value name="green">
+                <shadow type="math_number">
+                  <field name="NUM">0</field>
+                </shadow>
+               </value>
+               <value name="blue">
+                <shadow type="math_number">
+                  <field name="NUM">110</field>
+                </shadow>
+               </value>
+            </block>
+           </value>
+          </block>
+
+          <block type="neopixel_write"></block>
+          
+          
+          <block type="neopixel_5x5">
+          </block>
+          
+          
+          <block type="get_pos_5x5">
+           <value name="posX">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+           </value>
+
+           <value name="posY">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+           </value>
+          </block>
+          
+          
+          
+        </category>
+        
+        
+        <category name="Komunikace" colour="#24c48e">
+          <label text="ESP Now"></label>
+          
+          <block type="esp_now_send_str">
+                <value name="message">
+                    <shadow type="text">
+                        <field name="TEXT">data</field>
+                    </shadow>
+                </value>
+          </block>
+            
+          <block type="esp_now_data_check"></block> 
+          <block type="esp_now_new_data"></block> 
+          
+                    
+          <label text="Internet věcí Blynk.io"></label>
+            
+          <block type="blynk_connect">
+           <value name="Blynk_ID">
+            <shadow type="text">
+            </shadow>
+           </value>
+          </block>
+          
+          <block type="blynk_run"></block>
+          
+          <block type="blynk_write">
+           <value name="val">
+            <shadow type="math_number">
+              <field name="NUM">0</field>
+            </shadow>
+           </value>
+          </block>
+        
+          <block type="blynk_read"></block> 
+          
+          <block type="blynk_is_connected"></block> 
+
+          <label text="Čtení dat z webového serveru (HTTP Request)"></label>
+          
+          <block type="http_request">
+           <value name="url">
+            <shadow type="text">
+                <field name="TEXT">http://www.iotserver.cz/ide/test.txt</field>
+            </shadow>
+           </value>
+          </block>
+          
+          
+        </category>
+
+        
+    </xml>
+    
+</body>
+</html>

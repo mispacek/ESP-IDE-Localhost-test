@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=0.68, maximum-scale=0.68, user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  
+  <style>
+    body {
+      background-image: url('background.png');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      background-color: #646464;
+    }
+  </style>
+  
+  <script>
+    let StickStatus={xPosition:0,yPosition:0,x:0,y:0,pressed:0};var JoyStick=function(t,e,i){var o=void 0===(e=e||{}).title?"joystick":e.title,n=void 0===e.width?0:e.width,a=void 0===e.height?0:e.height,r=void 0===e.internalFillColor?"#AAAAAA":e.internalFillColor,d=void 0===e.internalLineWidth?2:e.internalLineWidth,s=void 0===e.internalStrokeColor?"#333333":e.internalStrokeColor,c=void 0===e.externalLineWidth?2:e.externalLineWidth,u=void 0===e.externalStrokeColor?"#808080":e.externalStrokeColor,h=void 0===e.autoReturnToCenter||e.autoReturnToCenter;i=i||function(t){};var S=document.getElementById(t);S.style.touchAction="none";var l=document.createElement("canvas");l.id=o,0===n&&(n=S.clientWidth),0===a&&(a=S.clientHeight),l.width=n,l.height=a,S.appendChild(l);var f=l.getContext("2d"),k=0,g=2*Math.PI,x=(l.width-(l.width/2+10))/2,v=x+5,w=x+30,p=l.width/2,P=l.height/2,m=(l.width,l.height,p),y=P,E=void 0,T=void 0;function drawExternal(){f.beginPath(),f.arc(p,P,w,0,g,!1),f.lineWidth=c,f.strokeStyle=u,f.stroke()}function drawInternal(){f.beginPath(),m<x&&(m=v),m+x>l.width&&(m=l.width-v),y<x&&(y=v),y+x>l.height&&(y=l.height-v),f.arc(m,y,x,0,g,!1);var t=f.createRadialGradient(p,P,5,p,P,200);t.addColorStop(0,r),t.addColorStop(1,s),f.fillStyle=t,f.fill(),f.lineWidth=d,f.strokeStyle=s,f.stroke()}"ontouchstart"in document.documentElement?(l.addEventListener("touchstart",(function onTouchStart(t){k=1}),!1),document.addEventListener("touchmove",(function onTouchMove(t){1===k&&t.targetTouches[0].target===l&&(m=t.targetTouches[0].pageX,y=t.targetTouches[0].pageY,E=m,T=y,"BODY"===l.offsetParent.tagName.toUpperCase()?(m-=l.offsetLeft,y-=l.offsetTop):(m-=l.offsetParent.offsetLeft,y-=l.offsetParent.offsetTop),f.clearRect(0,0,l.width,l.height),drawExternal(),drawInternal(),StickStatus.xPosition=m,StickStatus.yPosition=y,StickStatus.x=((m-p)/v*100).toFixed(),StickStatus.y=((y-P)/v*100*-1).toFixed(),StickStatus.pressed=1,i(StickStatus))}),!1),document.addEventListener("touchend",(function onTouchEnd(t){if(!E||!T||t.changedTouches.length>0&&(Math.abs(t.changedTouches[0].pageX-E)>10||Math.abs(t.changedTouches[0].pageY-T)>10))return;E=void 0,T=void 0,k=0,h&&(m=p,y=P);f.clearRect(0,0,l.width,l.height),drawExternal(),drawInternal(),StickStatus.xPosition=m,StickStatus.yPosition=y,StickStatus.x=((m-p)/v*100).toFixed(),StickStatus.y=((y-P)/v*100*-1).toFixed(),StickStatus.pressed=0,i(StickStatus)}),!1)):(l.addEventListener("mousedown",(function onMouseDown(t){k=1}),!1),document.addEventListener("mousemove",(function onMouseMove(t){1===k&&(m=t.pageX,y=t.pageY,"BODY"===l.offsetParent.tagName.toUpperCase()?(m-=l.offsetLeft,y-=l.offsetTop):(m-=l.offsetParent.offsetLeft,y-=l.offsetParent.offsetTop),f.clearRect(0,0,l.width,l.height),drawExternal(),drawInternal(),StickStatus.xPosition=m,StickStatus.yPosition=y,StickStatus.x=((m-p)/v*100).toFixed(),StickStatus.y=((y-P)/v*100*-1).toFixed(),StickStatus.pressed=1,i(StickStatus))}),!1),document.addEventListener("mouseup",(function onMouseUp(t){k=0,h&&(m=p,y=P);f.clearRect(0,0,l.width,l.height),drawExternal(),drawInternal(),StickStatus.xPosition=m,StickStatus.yPosition=y,StickStatus.x=((m-p)/v*100).toFixed(),StickStatus.y=((y-P)/v*100*-1).toFixed(),StickStatus.pressed=0,i(StickStatus)}),!1)),drawExternal(),drawInternal(),this.GetWidth=function(){return l.width},this.GetHeight=function(){return l.height},this.GetPosX=function(){return m},this.GetPosY=function(){return y},this.GetX=function(){return((m-p)/v*100).toFixed()},this.GetY=function(){return((y-P)/v*100*-1).toFixed()}};
+  </script>
+  
+  <script>
+        var origin = window.location.origin;
+        //var origin = "http://192.168.1.145";
+        //var origin = "http://192.168.4.1";
+        
+        
+        var Joy1;
+        var Joy2;
+        var joystick_ws_opened = 0;
+        var joy_X = 0;
+        var joy_Y = 0;
+        var joy_pressed = 0;
+        
+        var joy2_X = 0;
+        var joy2_Y = 0;
+        var joy2_pressed = 0;
+        
+        (function() {
+        window.onload = function() {
+
+          Joy1 = new JoyStick('joy1Div', {}, function(stickData) {
+            joy_X = stickData.x;
+            joy_Y = stickData.y;
+            joy_pressed = stickData.pressed;
+            //console.log(stickData);
+          });
+          
+          Joy2 = new JoyStick('joy2Div', {}, function(stickData) {
+            joy2_X = stickData.x;
+            joy2_Y = stickData.y;
+            joy2_pressed = stickData.pressed;
+            //console.log(stickData);
+          });
+        };
+
+    }).call(this);
+    
+        
+    joystick_timer = setInterval(joystickTimer, 125);
+            
+    function joystickTimer() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", origin + '/*JOY;' + joy_X + ";" + joy_Y + ";" + joy_pressed + ";" + joy2_X + ";" + joy2_Y + ";" + joy2_pressed);
+        xhr.timeout = 240;
+        xhr.send();
+        xhr.responseType = "text";
+        xhr.ontimeout = function () {console.log(`timeout: ${xhr.status}`);}
+        xhr.onload = () => {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            //console.log("OK:" + xhr.response);
+          } else {
+            console.log(`Error: ${xhr.status}`);
+          }
+        };
+    }
+    
+  </script>
+  <title>Editor</title>
+</head>
+
+<body>
+  <div id="joy1Div" style="position: absolute; bottom: 10%; right: 2%;width:275px;height:275px;z-index: 100000;"></div>
+  <div id="joy2Div" style="position: absolute; bottom: 10%; left: 2%;width:275px;height:275px;z-index: 100000;"></div>
+</body>
