@@ -5,8 +5,7 @@ Local development server runs on <http://localhost:5000> by default.
 ```bash
 docker compose up -d
 ```
-
-![img/esp_ide_home.png](homepage)
+![esp_ide_home](https://github.com/mispacek/ESP-IDE-Localhost-test/assets/157374981/5cbfe462-d4e6-437d-ad62-2947d40f2756)
 
 Purpose of this repository is development of the IDE web UI itself. By default no filesystem operations are not posible (save/load file). Execute code is also not possilbe.
 
